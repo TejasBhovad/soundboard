@@ -43,19 +43,22 @@ const Sidebar = () => {
   return (
     <div
       className={`bg-secondary text-white h-full border-[1px] border-utility flex py-4 ${
-        isSidebarOpen ? "w-48 px-2" : "w-16 px-2.5"
+        isSidebarOpen ? "w-48 px-3.5" : "w-16 px-2.5"
       } transition-all`}
     >
-      <div className="collapse-btn w-full flex h-12 gap-3 items-center">
-        <button className="w-10 h-10 bg-blue-300" onClick={toggleSidebar}>
-          {/* state of sidebar text */}
+      <div
+        className={`collapse-btn w-full flex h-10 gap-3 items-center cursor-pointer rounded-sm bg-red-500 ${
+          isSidebarOpen ? "" : "justify-start w-10"
+        }`}
+        onClick={toggleSidebar}
+      >
+        <button className="w-10 h-10 bg-blue-300">
           <span className="text-sm text-blue-900 font-bold">
-            {" "}
             {isSidebarOpen ? "close" : "open"}
           </span>
         </button>
         {isTextVisible && (
-          <div className="flex items-center h-full font-semibold text-md">
+          <div className="flex items-center h-full font-semibold text-md overflow-hidden whitespace-nowrap">
             Your Boards
           </div>
         )}
