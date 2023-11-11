@@ -60,6 +60,7 @@ module.exports = {
         logoSecondary: "#B56DEE",
         logoGradientLight: "#361F5F",
         logoGradientDark: "#8036FF",
+        utility: "#2F2939",
       },
       borderRadius: {
         lg: "var(--radius)",
