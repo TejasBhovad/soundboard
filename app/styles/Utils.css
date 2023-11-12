@@ -1,0 +1,10 @@
+.gradient-text {
+  background: linear-gradient(to right, #7548f7, #be06ff);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+.soundboard-card:hover {
+  .pic {
+    background-color: #231f31;
+  }
+}

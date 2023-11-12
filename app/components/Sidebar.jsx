@@ -1,10 +1,28 @@
 "use client";
+import Board from "@/app/components/logos/Board";
+import Link from "next/link";
+import Plus from "@/app/components/logos/Plus";
+import Image from "next/image";
 import { useState, useEffect } from "react";
 
 const Sidebar = () => {
   const [isSidebarOpen, setIsSidebarOpen] = useState(false);
   const [isTextVisible, setIsTextVisible] = useState(false);
   const [isMounted, setIsMounted] = useState(false);
+
+  // temp soundboard data that will be fetched later
+  const [soundboards, setSoundboards] = useState([
+    {
+      id: "sound_1",
+      name: "Soundboard 1",
+      logo: "https://robohash.org/helloworld",
+    },
+    {
+      id: "sound_2",
+      name: "Soundboard 2",
+      logo: "https://robohash.org/hello",
+    },
+  ]);
 
   useEffect(() => {
     setIsMounted(true);
@@ -41,20 +59,43 @@ const Sidebar = () => {
   }, [isSidebarOpen]);
 
   return (
-    <div
-      className={`bg-secondary text-white h-full border-[1px] border-utility flex py-4 ${
-        isSidebarOpen ? "w-48 px-3.5" : "w-16 px-2.5"
+    <nav
+      role="navigation"
+      aria-label="Main Navigation"
+      className={`bg-secondary text-white h-full border-[1px] border-utility flex py-4 flex-col gap-2 ${
+        isSidebarOpen ? "w-56 px-3.5" : "w-16 px-2.5"
       } transition-all`}
     >
+      {/* Create Board button */}
+      <Link href={`/dashboard/new`} className="mb-4 ">
+        <div
+          className={`collapse-btn w-full flex h-10 gap-2 items-center cursor-pointer rounded-sm bg-accent hover:bg-primary transition-all justify-center items-center ${
+            isSidebarOpen ? "" : "justify-center px-0"
+          }`}
+        >
+          <span className="flex justify-center items-center">
+            <Plus />
+          </span>
+
+          {isTextVisible && (
+            <div className="flex items-center h-full font-semibold text-md overflow-hidden whitespace-nowrap">
+              Create Board
+            </div>
+          )}
+        </div>
+      </Link>
+
+      {/* Your Boards button */}
       <div
-        className={`collapse-btn w-full flex h-10 gap-3 items-center cursor-pointer rounded-sm bg-red-500 ${
-          isSidebarOpen ? "" : "justify-start w-10"
+        className={`collapse-btn w-full flex h-10 gap-1 items-center cursor-pointer rounded-sm hover:bg-utility transition-all ${
+          isSidebarOpen ? "" : "justify-start px-0"
         }`}
         onClick={toggleSidebar}
+        tabIndex={0}
       >
-        <button className="w-10 h-10 bg-blue-300">
-          <span className="text-sm text-blue-900 font-bold">
-            {isSidebarOpen ? "close" : "open"}
+        <button className="w-10 h-10" aria-label="Your Boards">
+          <span className="flex justify-center items-center">
+            <Board />
           </span>
         </button>
         {isTextVisible && (
@@ -63,7 +104,39 @@ const Sidebar = () => {
           </div>
         )}
       </div>
-    </div>
+
+      {/* Soundboards mapping */}
+      {soundboards.map((soundboard) => (
+        <Link key={soundboard.id} href={`/dashboard/${soundboard.id}`}>
+          <div
+            className={`board-btn w-full flex h-10 gap-1 items-center cursor-pointer rounded-sm hover:bg-utility transition-all  ${
+              isSidebarOpen ? "pr-1" : "justify-start "
+            }`}
+            tabIndex={0}
+          >
+            <button
+              className="w-10 h-10"
+              aria-label={`Go to ${soundboard.name} Dashboard`}
+            >
+              <span className="flex justify-center items-center">
+                <Image
+                  className=""
+                  src={soundboard.logo}
+                  width={24}
+                  height={24}
+                  alt={soundboard.name}
+                ></Image>
+              </span>
+            </button>
+            {isTextVisible && (
+              <div className="flex items-center h-full font-medium text-md overflow-hidden whitespace-nowrap">
+                {soundboard.name}
+              </div>
+            )}
+          </div>
+        </Link>
+      ))}
+    </nav>
   );
 };
 
