@@ -3,6 +3,7 @@ import Board from "@/app/components/logos/Board";
 import Link from "next/link";
 import Plus from "@/app/components/logos/Plus";
 import Image from "next/image";
+import CreateButton from "@/app/components/buttons/CreateButton";
 import { useState, useEffect } from "react";
 
 const Sidebar = () => {
@@ -67,23 +68,10 @@ const Sidebar = () => {
       } transition-all`}
     >
       {/* Create Board button */}
-      <Link href={`/dashboard/new`} className="mb-4 ">
-        <div
-          className={`collapse-btn w-full flex h-10 gap-2 items-center cursor-pointer rounded-sm bg-accent hover:bg-primary transition-all justify-center items-center ${
-            isSidebarOpen ? "" : "justify-center px-0"
-          }`}
-        >
-          <span className="flex justify-center items-center">
-            <Plus />
-          </span>
-
-          {isTextVisible && (
-            <div className="flex items-center h-full font-semibold text-md overflow-hidden whitespace-nowrap">
-              Create Board
-            </div>
-          )}
-        </div>
-      </Link>
+      <CreateButton
+        isSidebarOpen={isSidebarOpen}
+        isTextVisible={isTextVisible}
+      />
 
       {/* Your Boards button */}
       <div
