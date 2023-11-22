@@ -9,13 +9,7 @@ import {
   DialogTrigger,
 } from "@/components/ui/dialog";
 import ImageUpload from "@/app/components/ImageUpload";
-import {
-  Select,
-  SelectContent,
-  SelectItem,
-  SelectTrigger,
-  SelectValue,
-} from "@/components/ui/select";
+import SoundUpload from "@/app/components/SoundUpload";
 import { Input } from "@/components/ui/input";
 const SoundButton = ({ sound_id, name, file, logo }) => {
   // Play sound
@@ -43,11 +37,11 @@ const SoundButton = ({ sound_id, name, file, logo }) => {
       <div className="absolute top-0 right-0 z-10" onClick={handleEditClick}>
         <Dialog>
           <DialogTrigger className="">
-            <div className="w-6 h-6 bg-utility rounded-sm flex justify-center items-center">
+            <div className="w-7 h-7 bg-utility rounded-tr-sm rounded-bl-sm flex justify-center items-center">
               {/* edit svg icon */}
               <svg
                 xmlns="http://www.w3.org/2000/svg"
-                className="h-4 w-4 text-text"
+                className="h-6 w-6 text-text"
                 viewBox="0 0 20 20"
                 fill="currentColor"
               >
@@ -62,29 +56,21 @@ const SoundButton = ({ sound_id, name, file, logo }) => {
           </DialogTrigger>
           <DialogContent>
             <DialogTitle>
-              <span className="text-accent"># </span>Edit Soundboard
+              <span className="text-accent"># </span>Edit Sound
             </DialogTitle>
             <div className="text-text py-4 gap-6 flex-col flex">
               <div className="flex-col flex justify-center gap-4">
-                <div className="visibility flex gap-4  flex items-center">
-                  <span className="w-20">Visibility</span>
-                  <Select className="text-gray-500" defaultValue="public">
-                    <SelectTrigger className="w-[180px] h-8">
-                      <SelectValue placeholder="Public" />
-                    </SelectTrigger>
-                    <SelectContent>
-                      <SelectItem value="public">Public</SelectItem>
-                      <SelectItem value="private">Private</SelectItem>
-                    </SelectContent>
-                  </Select>
-                </div>
                 <div className="Name flex gap-4 flex items-center">
                   <span className="w-20">Name</span>
                   <Input className="w-[180px] h-8" />
                 </div>
-                <div className="Name flex gap-4 flex items-center">
+                <div className="image flex gap-4 flex items-center">
                   <div className="aspect-square w-20 bg-background border-[1px] border-utility rounded-sm"></div>
                   <ImageUpload />
+                </div>
+                <div className="file flex gap-4 flex items-center">
+                  <div className="aspect-square w-20 bg-background border-[1px] border-utility rounded-sm"></div>
+                  <SoundUpload />
                 </div>
               </div>
               <div className="flex gap-4">
