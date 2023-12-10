@@ -1,11 +1,12 @@
 import GithubProvider from "next-auth/providers/github";
 import GoogleProvider from "next-auth/providers/google";
+import { saveUser, getUserByEmail } from "@/app/queries/user";
 
 export const options = {
   providers: [
     GithubProvider({
       profile(profile) {
-        console.log(profile); // Log the profile object to see its structure.
+        // console.log(profile); // Log the profile object to see its structure.
         let userRole = "github-user";
         return {
           ...profile,
@@ -18,7 +19,7 @@ export const options = {
     GoogleProvider({
       profile(profile) {
         let userRole = "google-user";
-        console.log("Google" + profile); // Log the profile object to see its structure.
+        // console.log("Google" + profile); // Log the profile object to see its structure.
         return {
           ...profile,
           role: userRole,
@@ -36,6 +37,29 @@ export const options = {
   callbacks: {
     async jwt({ token, user }) {
       if (user) {
+        const dbUser = await getUserByEmail(user.email);
+        if (!dbUser) {
+          // create user_ID from name
+          const user_id = user.name.replace(/\s/g, "_").toLowerCase();
+          let image;
+          if (user.role === "google-user") {
+            image = user.image;
+          } else if (user.role === "github-user") {
+            image = user.avatar_url;
+          } else {
+            image = "https://robohash.org/helloworld"; // replace 'default_image' with any default value you want
+          }
+          await saveUser(
+            user.name,
+            user_id,
+            user.email,
+            image,
+            "basic",
+            // dummy date
+            "2021-10-10",
+            ["dummy_recent_board1", "dummy_recent_board2"]
+          );
+        }
         token.role = user.role;
       }
       return token;
