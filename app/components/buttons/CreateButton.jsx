@@ -1,3 +1,5 @@
+"use client";
+import { useState } from "react";
 import {
   Dialog,
   DialogContent,
@@ -18,6 +20,19 @@ import ImageUpload from "@/app/components/ImageUpload";
 import Plus from "@/app/components/logos/Plus";
 
 const CreateButton = ({ isSidebarOpen, isTextVisible }) => {
+  const [name, setName] = useState("");
+  const [isNameValid, setIsNameValid] = useState(true);
+  const [isNextClicked, setIsNextClicked] = useState(false);
+
+  const handleNameChange = (event) => {
+    setName(event.target.value);
+    setIsNameValid(event.target.value !== "");
+  };
+
+  const handleNextClick = () => {
+    setIsNextClicked(true);
+    setIsNameValid(name !== "");
+  };
   return (
     <Dialog>
       <DialogTrigger className="mb-4">
@@ -42,7 +57,7 @@ const CreateButton = ({ isSidebarOpen, isTextVisible }) => {
           <DialogTitle>
             <span className="text-accent"># </span>Create new Soundboard
           </DialogTitle>
-          <DialogDescription className="text-text py-4 gap-6 flex-col flex">
+          <div className="text-text py-4 gap-6 flex-col flex">
             <div className="flex-col flex justify-center gap-4">
               <div className="visibility flex gap-4  flex items-center">
                 <span className="w-20">Visibility</span>
@@ -58,17 +73,26 @@ const CreateButton = ({ isSidebarOpen, isTextVisible }) => {
               </div>
               <div className="Name flex gap-4 flex items-center">
                 <span className="w-20">Name</span>
-                <Input className="w-[180px] h-8" />
+                <Input
+                  className={`w-[180px] h-8 ${
+                    !isNameValid ? "border-red-500" : ""
+                  }`}
+                  value={name}
+                  onChange={handleNameChange}
+                />
               </div>
               <div className="Name flex gap-4 flex items-center">
                 <div className="aspect-square w-20 bg-background border-[1px] border-utility rounded-sm"></div>
                 <ImageUpload />
               </div>
             </div>
-            <button className="px-2 py-1 bg-accent font-semibold w-20 rounded-sm hover:bg-primary transition-all">
+            <button
+              className="px-2 py-1 bg-accent font-semibold w-20 rounded-sm hover:bg-primary transition-all"
+              onClick={handleNextClick}
+            >
               Next
             </button>
-          </DialogDescription>
+          </div>
         </DialogHeader>
       </DialogContent>
     </Dialog>

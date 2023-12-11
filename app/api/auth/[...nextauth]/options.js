@@ -47,7 +47,7 @@ export const options = {
           } else if (user.role === "github-user") {
             image = user.avatar_url;
           } else {
-            image = "https://robohash.org/helloworld"; // replace 'default_image' with any default value you want
+            image = "https://robohash.org" + user_id;
           }
           await saveUser(
             user.name,
@@ -55,9 +55,8 @@ export const options = {
             user.email,
             image,
             "basic",
-            // dummy date
-            "2021-10-10",
-            ["dummy_recent_board1", "dummy_recent_board2"]
+            "0000-00-10",
+            []
           );
         }
         token.role = user.role;
