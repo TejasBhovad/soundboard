@@ -1,5 +1,5 @@
 "use client";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import {
   Dialog,
   DialogContent,
@@ -18,12 +18,14 @@ import {
 import { Input } from "@/components/ui/input";
 import ImageUpload from "@/app/components/ImageUpload";
 import Plus from "@/app/components/logos/Plus";
+import Image from "next/image";
 
 const CreateButton = ({ isSidebarOpen, isTextVisible }) => {
   const [name, setName] = useState("");
   const [isNameValid, setIsNameValid] = useState(true);
   const [isNextClicked, setIsNextClicked] = useState(false);
-
+  const [visibility, setVisibility] = useState("public");
+  const [image, setImage] = useState("https://robohash.org/placeholder");
   const handleNameChange = (event) => {
     setName(event.target.value);
     setIsNameValid(event.target.value !== "");
@@ -33,6 +35,20 @@ const CreateButton = ({ isSidebarOpen, isTextVisible }) => {
     setIsNextClicked(true);
     setIsNameValid(name !== "");
   };
+
+  useEffect(() => {
+    console.log("visibility", visibility);
+    console.log("name", name);
+    console.log("image", image);
+    // if (image. && name !== "") {
+    //   setImage("https://robohash.org/" + name.replace(" ", ""));
+    // }
+    // if image constains robohash ad name isn not empty then set image to setImage("https://robohash.org/" + name.replace(" ", ""));
+    if (image.includes("robohash") && name !== "") {
+      setImage("https://robohash.org/" + name.replace(" ", ""));
+    }
+  }, [visibility, name, image]);
+
   return (
     <Dialog>
       <DialogTrigger className="mb-4">
@@ -61,7 +77,14 @@ const CreateButton = ({ isSidebarOpen, isTextVisible }) => {
             <div className="flex-col flex justify-center gap-4">
               <div className="visibility flex gap-4  flex items-center">
                 <span className="w-20">Visibility</span>
-                <Select className="text-gray-500" defaultValue="public">
+                <Select
+                  className="text-gray-500"
+                  defaultValue="public"
+                  value={visibility}
+                  onValueChange={
+                    (value) => setVisibility(value) // eslint-disable-line
+                  }
+                >
                   <SelectTrigger className="w-[180px] h-8">
                     <SelectValue placeholder="Public" />
                   </SelectTrigger>
@@ -81,9 +104,17 @@ const CreateButton = ({ isSidebarOpen, isTextVisible }) => {
                   onChange={handleNameChange}
                 />
               </div>
-              <div className="Name flex gap-4 flex items-center">
-                <div className="aspect-square w-20 bg-background border-[1px] border-utility rounded-sm"></div>
-                <ImageUpload />
+              <div className="Name flex gap-4 flex items-start">
+                <div className="aspect-square w-20 bg-background border-[1px] border-utility rounded-sm">
+                  <Image
+                    src={image}
+                    width={80}
+                    height={80}
+                    alt="default image"
+                    className="w-full h-full"
+                  />
+                </div>
+                <ImageUpload setImage={setImage} />
               </div>
             </div>
             <button

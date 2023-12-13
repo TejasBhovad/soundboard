@@ -1,15 +1,10 @@
 const { createUploadthing } = require("uploadthing/next");
-// import next-auth and get id from session
-// import { getSession } from "next-auth/client";
-//
-// const auth = async (req) => {
-//   const session = await getSession({ req });
-//   return session?.user?.id;
-// };
-
+import { getToken } from "next-auth/jwt";
 const f = createUploadthing();
 
-const auth = (req) => ({ id: "fakeId" }); // Fake auth function
+const auth = (req) => ({
+  id: "fakeId",
+}); // Fake auth function
 
 // FileRouter for your app, can contain multiple FileRoutes
 const ourFileRouter = {
@@ -18,7 +13,7 @@ const ourFileRouter = {
     // Set permissions and file types for this FileRoute
     .middleware(async ({ req }) => {
       // This code runs on your server before upload
-      const user = await auth(req);
+      const user = await getToken({ req });
 
       // If you throw, the user will not be able to upload
       if (!user) throw new Error("Unauthorized");
