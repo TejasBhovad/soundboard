@@ -5,7 +5,6 @@ import { useRouter } from "next/navigation";
 import { useUserData } from "@/app/hooks/db";
 function Page() {
   const { data: session, status } = useSession();
-
   const [userEmail, setUserEmail] = useState(null);
   useEffect(() => {
     if (status === "authenticated") {
@@ -14,7 +13,6 @@ function Page() {
   }, [status]);
   const { userData, loading } = useUserData(userEmail);
   const firstRecentBoard = userData?.recent_boards?.[0];
-
 
   const router = useRouter();
 

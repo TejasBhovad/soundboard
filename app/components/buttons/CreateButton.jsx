@@ -1,4 +1,7 @@
 "use client";
+
+import { useSession } from "next-auth/react";
+import { useUserData } from "@/app/hooks/db";
 import { useEffect, useState } from "react";
 import {
   Dialog,
@@ -21,11 +24,22 @@ import Plus from "@/app/components/logos/Plus";
 import Image from "next/image";
 
 const CreateButton = ({ isSidebarOpen, isTextVisible }) => {
+  const { data: session, status } = useSession();
+
+  const [userEmail, setUserEmail] = useState(null);
+  useEffect(() => {
+    if (status === "authenticated") {
+      setUserEmail(session.user.email);
+    }
+  }, [status]);
+  const { userData, loading } = useUserData(userEmail);
+  const creator = userData.$id;
   const [name, setName] = useState("");
   const [isNameValid, setIsNameValid] = useState(true);
   const [isNextClicked, setIsNextClicked] = useState(false);
   const [visibility, setVisibility] = useState("public");
   const [image, setImage] = useState("https://robohash.org/placeholder");
+
   const handleNameChange = (event) => {
     setName(event.target.value);
     setIsNameValid(event.target.value !== "");
@@ -40,6 +54,8 @@ const CreateButton = ({ isSidebarOpen, isTextVisible }) => {
     console.log("visibility", visibility);
     console.log("name", name);
     console.log("image", image);
+    console.log(userEmail);
+    console.log(creator);
     // if (image. && name !== "") {
     //   setImage("https://robohash.org/" + name.replace(" ", ""));
     // }

@@ -39,25 +39,28 @@ export const options = {
       if (user) {
         const dbUser = await getUserByEmail(user.email);
         if (!dbUser) {
+          console.log("Creating new user");
           // create user_ID from name
           const user_id = user.name.replace(/\s/g, "_").toLowerCase();
           let image;
           if (user.role === "google-user") {
-            image = user.image;
+            image = user.picture;
+            console.log(user);
           } else if (user.role === "github-user") {
             image = user.avatar_url;
           } else {
             image = "https://robohash.org" + user_id;
           }
-          await saveUser(
-            user.name,
-            user_id,
-            user.email,
-            image,
-            "basic",
-            "0000-00-10",
-            []
-          );
+          // await saveUser(
+          //   user.name,
+          //   user_id,
+          //   user.email,
+          //   image,
+          //   "basic",
+          //   "0000-00-10",
+          //   []
+          // );
+          await saveUser(user.name, user_id, image, user.email, "basic");
         }
         token.role = user.role;
       }
