@@ -1,5 +1,5 @@
 "use client";
-
+import { saveBoard } from "@/app/queries/board";
 import { useSession } from "next-auth/react";
 import { useUserData } from "@/app/hooks/db";
 import { useEffect, useState } from "react";
@@ -33,8 +33,10 @@ const CreateButton = ({ isSidebarOpen, isTextVisible }) => {
     }
   }, [status]);
   const { userData, loading } = useUserData(userEmail);
-  const creator = userData.$id;
+  const creator = userData?.$id;
+  const [isDialogOpen, setIsDialogOpen] = useState(false);
   const [name, setName] = useState("");
+  const [boardID, setBoardID] = useState("");
   const [isNameValid, setIsNameValid] = useState(true);
   const [isNextClicked, setIsNextClicked] = useState(false);
   const [visibility, setVisibility] = useState("public");
@@ -42,17 +44,26 @@ const CreateButton = ({ isSidebarOpen, isTextVisible }) => {
 
   const handleNameChange = (event) => {
     setName(event.target.value);
+    const random_5 = Math.random().toString(36).substring(7);
+    const bID =
+      event.target.value.replace(" ", "_").toLowerCase() + "_" + random_5;
+    setBoardID(bID);
     setIsNameValid(event.target.value !== "");
   };
 
   const handleNextClick = () => {
     setIsNextClicked(true);
+    setIsDialogOpen(false);
     setIsNameValid(name !== "");
+    if (name !== "") {
+      saveBoard(name, creator, image, visibility, boardID, 0);
+    }
   };
 
   useEffect(() => {
     console.log("visibility", visibility);
     console.log("name", name);
+    console.log("boardID", boardID);
     console.log("image", image);
     console.log(userEmail);
     console.log(creator);
@@ -66,9 +77,10 @@ const CreateButton = ({ isSidebarOpen, isTextVisible }) => {
   }, [visibility, name, image]);
 
   return (
-    <Dialog>
+    <Dialog open={isDialogOpen}>
       <DialogTrigger className="mb-4">
         <div
+          onClick={() => setIsDialogOpen(true)}
           className={`collapse-btn w-full flex h-10 gap-2 items-center cursor-pointer rounded-sm bg-accent hover:bg-primary transition-all justify-center items-center ${
             isSidebarOpen ? "" : "justify-center px-0"
           }`}

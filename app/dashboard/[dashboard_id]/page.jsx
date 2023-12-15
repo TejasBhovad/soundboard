@@ -1,4 +1,6 @@
 "use client";
+import { useSession } from "next-auth/react";
+import { useUserData } from "@/app/hooks/db";
 import "../../styles/Utils.css";
 import Image from "next/image";
 import SoundButton from "@/app/components/SoundButton";
@@ -22,6 +24,15 @@ import {
 } from "@/components/ui/select";
 import { Input } from "@/components/ui/input";
 const page = ({ params }) => {
+  const { data: session, status } = useSession();
+
+  const [userEmail, setUserEmail] = useState(null);
+  useEffect(() => {
+    if (status === "authenticated") {
+      setUserEmail(session.user.email);
+    }
+  }, [status]);
+  const { userData, loading } = useUserData(userEmail);
   // temp data (will be fetched using params.dashboard_id)
   const [soundsData, setSoundsData] = useState([
     {
@@ -62,14 +73,49 @@ const page = ({ params }) => {
 
   // Update dashboard ID and image when soundboards changes
   useEffect(() => {
-    const soundboard = soundboards.find((sb) => sb.id === params.dashboard_id);
+    const soundboard = soundboards.find(
+      (sb) => sb.board_id === params.dashboard_id
+    );
     if (soundboard) {
-      setDashboardId(soundboard.id);
+      setDashboardId(soundboard.board_id);
       setDashboardImage(soundboard.logo);
       setBoardVisibility(soundboard.visibility);
+      setSoundsData(soundboard[params.dashboard_id]?.sounds);
     }
   }, [soundboards, params.dashboard_id]);
+  const [isDialogOpen, setIsDialogOpen] = useState(false);
+  const [boardName, setBoardName] = useState("");
+  const [visibility, setVisibility] = useState("public");
+  const [image, setImage] = useState("https://robohash.org/placeholder");
+  const [isNameValid, setIsNameValid] = useState(true);
+  const handleNameChange = (event) => {
+    setBoardName(event.target.value);
+    setIsNameValid(event.target.value !== "");
+  };
 
+  const handleNextClick = () => {
+    setIsDialogOpen(false);
+    if (boardName !== "") {
+      // saveBoard(boardName, creator, image, visibility, boardID, 0);
+    }
+  };
+
+  useEffect(() => {
+    console.log("visibility", visibility);
+    console.log("name", boardName);
+    console.log("image", image);
+    if (image.includes("robohash") && boardName !== "") {
+      setImage("https://robohash.org/" + boardName.replace(" ", ""));
+    }
+  }, [visibility, boardName, image]);
+  useEffect(() => {
+    if (loading) return;
+    if (userData) {
+      console.log("userData", userData?.boards);
+      setSoundboards(userData.boards);
+      // console.log("soundboards", soundboards);
+    }
+  }, [userData, loading]);
   return (
     <div className="w-full h-full py-2 px-4 gap-4 flex flex-col">
       {/* add click to edit board page */}
@@ -101,7 +147,14 @@ const page = ({ params }) => {
             <div className="flex-col flex justify-center gap-4">
               <div className="visibility flex gap-4  flex items-center">
                 <span className="w-20">Visibility</span>
-                <Select className="text-gray-500" defaultValue="public">
+                <Select
+                  className="text-gray-500"
+                  defaultValue="public"
+                  value={visibility}
+                  onValueChange={
+                    (value) => setVisibility(value) // eslint-disable-line
+                  }
+                >
                   <SelectTrigger className="w-[180px] h-8">
                     <SelectValue placeholder="Public" />
                   </SelectTrigger>
@@ -113,15 +166,32 @@ const page = ({ params }) => {
               </div>
               <div className="Name flex gap-4 flex items-center">
                 <span className="w-20">Name</span>
-                <Input className="w-[180px] h-8" />
+                <Input
+                  className={`w-[180px] h-8 ${
+                    !isNameValid ? "border-red-500" : ""
+                  }`}
+                  value={boardName}
+                  onChange={handleNameChange}
+                />
               </div>
               <div className="Name flex gap-4 flex items-center">
-                <div className="aspect-square w-20 bg-background border-[1px] border-utility rounded-sm"></div>
-                <ImageUpload />
+                <div className="aspect-square w-20 bg-background border-[1px] border-utility rounded-sm">
+                  <Image
+                    src={image}
+                    width={80}
+                    height={80}
+                    alt="default image"
+                    className="w-full h-full"
+                  />
+                </div>
+                <ImageUpload setImage={setImage} />
               </div>
             </div>
             <div className="flex gap-4">
-              <button className="px-2 py-1 bg-accent font-semibold w-20 rounded-sm hover:bg-primary transition-all">
+              <button
+                className="px-2 py-1 bg-accent font-semibold w-20 rounded-sm hover:bg-primary transition-all"
+                onClick={handleNextClick}
+              >
                 Save
               </button>
               <button className="px-2 py-1 bg-background font-semibold w-20 rounded-sm hover:opacity-75 transition-all border border-utility border-[1px]">
@@ -134,7 +204,7 @@ const page = ({ params }) => {
 
       <div className="sounds-container w-full h-fit px-4 flex gap-4">
         <AddSound />
-        {soundsData.map((sound) => (
+        {soundsData?.map((sound) => (
           <SoundButton
             key={sound.sound_id}
             name={sound.name}
@@ -144,6 +214,8 @@ const page = ({ params }) => {
           />
         ))}
       </div>
+      {JSON.stringify(soundboards)}
+      {JSON.stringify(soundsData)}
     </div>
   );
 };

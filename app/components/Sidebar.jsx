@@ -1,12 +1,23 @@
 "use client";
 import Board from "@/app/components/logos/Board";
 import Link from "next/link";
+import { useSession } from "next-auth/react";
+import { useUserData } from "@/app/hooks/db";
 import Plus from "@/app/components/logos/Plus";
 import Image from "next/image";
 import CreateButton from "@/app/components/buttons/CreateButton";
 import { useState, useEffect } from "react";
 
 const Sidebar = () => {
+  const { data: session, status } = useSession();
+
+  const [userEmail, setUserEmail] = useState(null);
+  useEffect(() => {
+    if (status === "authenticated") {
+      setUserEmail(session.user.email);
+    }
+  }, [status]);
+  const { userData, loading } = useUserData(userEmail);
   const [isSidebarOpen, setIsSidebarOpen] = useState(false);
   const [isTextVisible, setIsTextVisible] = useState(false);
   const [isMounted, setIsMounted] = useState(false);
@@ -14,16 +25,18 @@ const Sidebar = () => {
   // temp soundboard data that will be fetched later
   const [soundboards, setSoundboards] = useState([
     {
-      id: "sound_1",
+      board_id: "sound_1",
       name: "Soundboard 1",
       logo: "https://robohash.org/helloworld",
     },
     {
-      id: "sound_2",
+      board_id: "sound_2",
       name: "Soundboard 2",
       logo: "https://robohash.org/hello",
     },
   ]);
+  // const creator = userData?.$id;
+  // setSoundboards(userData?.boards);
 
   useEffect(() => {
     setIsMounted(true);
@@ -59,6 +72,15 @@ const Sidebar = () => {
     }
   }, [isSidebarOpen]);
 
+  // useffect that fetches the soundboards when loading chnages
+  useEffect(() => {
+    if (loading) return;
+    if (userData) {
+      console.log("userData", userData?.boards);
+      setSoundboards(userData.boards);
+      // console.log("soundboards", soundboards);
+    }
+  }, [userData, loading]);
   return (
     <nav
       role="navigation"
@@ -95,7 +117,10 @@ const Sidebar = () => {
 
       {/* Soundboards mapping */}
       {soundboards.map((soundboard) => (
-        <Link key={soundboard.id} href={`/dashboard/${soundboard.id}`}>
+        <Link
+          key={soundboard.board_id}
+          href={`/dashboard/${soundboard.board_id}`}
+        >
           <div
             className={`board-btn w-full flex h-10 gap-1 items-center cursor-pointer rounded-sm hover:bg-utility transition-all  ${
               isSidebarOpen ? "pr-1" : "justify-start "

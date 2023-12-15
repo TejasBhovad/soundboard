@@ -63,4 +63,43 @@ const getBoardsByCreator = async (creator) => {
   }
 };
 
-export { saveBoard, getBoardById, getBoardsByCreator };
+const updateRecentBoardAndTotalPlays = async (board_id, recent_board_id) => {
+  try {
+    const response = await databases.updateDocument(
+      process.env.NEXT_PUBLIC_APPWRITE_DB_ID,
+      process.env.NEXT_PUBLIC_APPWRITE_USERS_ID,
+      board_id,
+      {
+        recent_board_id,
+        total_plays: total_plays + 1,
+      }
+    );
+    return response;
+  } catch (error) {
+    console.log(error);
+  }
+};
+const updateBoard = async (board_id, name, logo, visibility) => {
+  try {
+    const response = await databases.updateDocument(
+      process.env.NEXT_PUBLIC_APPWRITE_DB_ID,
+      process.env.NEXT_PUBLIC_APPWRITE_BOARDS_ID,
+      board_id,
+      {
+        name,
+        logo,
+        visibility,
+      }
+    );
+    return response;
+  } catch (error) {
+    console.log(error);
+  }
+};
+export {
+  saveBoard,
+  getBoardById,
+  getBoardsByCreator,
+  updateBoard,
+  updateRecentBoardAndTotalPlays,
+};
