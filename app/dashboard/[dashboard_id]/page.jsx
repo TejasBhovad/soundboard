@@ -34,13 +34,14 @@ const page = ({ params }) => {
     }
   }, [status]);
   const { userData, loading } = useUserData(userEmail);
+  const creator = userData?.$id;
   // temp data (will be fetched using params.dashboard_id)
   const [soundsData, setSoundsData] = useState([]);
   // temp soundboard data that will be fetched later
   const [soundboards, setSoundboards] = useState([]);
   const [dashboardId, setDashboardId] = useState(params.dashboard_id);
   const [dashboardImage, setDashboardImage] = useState(
-    "https://robohash.org/hello" + params.dashboard_id
+    "https://robohash.org/" + params.dashboard_id
   );
   const [boardVisibility, setBoardVisibility] = useState("public");
 
@@ -191,7 +192,7 @@ const page = ({ params }) => {
       </Dialog>
 
       <div className="sounds-container w-full h-fit px-4 flex gap-4">
-        <AddSound />
+        <AddSound bID={dashboardId} creator={creator} />
         {soundsData?.map((sound) => (
           <SoundButton
             key={sound.sound_id}

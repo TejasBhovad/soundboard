@@ -67,10 +67,7 @@ const CreateButton = ({ isSidebarOpen, isTextVisible }) => {
     console.log("image", image);
     console.log(userEmail);
     console.log(creator);
-    // if (image. && name !== "") {
-    //   setImage("https://robohash.org/" + name.replace(" ", ""));
-    // }
-    // if image constains robohash ad name isn not empty then set image to setImage("https://robohash.org/" + name.replace(" ", ""));
+    
     if (image.includes("robohash") && name !== "") {
       setImage("https://robohash.org/" + name.replace(" ", ""));
     }
@@ -80,7 +77,7 @@ const CreateButton = ({ isSidebarOpen, isTextVisible }) => {
     <Dialog
       open={isDialogOpen}
       onOpenChange={
-        (value) => setIsDialogOpen(value) // eslint-disable-line
+        (value) => setIsDialogOpen(value)
       }
     >
       <DialogTrigger className="mb-4">
@@ -115,7 +112,7 @@ const CreateButton = ({ isSidebarOpen, isTextVisible }) => {
                   defaultValue="public"
                   value={visibility}
                   onValueChange={
-                    (value) => setVisibility(value) // eslint-disable-line
+                    (value) => setVisibility(value) 
                   }
                 >
                   <SelectTrigger className="w-[180px] h-8">
