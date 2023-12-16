@@ -1,6 +1,7 @@
 "use client";
 import { useSession } from "next-auth/react";
 import { useUserData } from "@/app/hooks/db";
+import { updateBoard } from "@/app/queries/board";
 import "../../styles/Utils.css";
 import Image from "next/image";
 import SoundButton from "@/app/components/SoundButton";
@@ -34,42 +35,14 @@ const page = ({ params }) => {
   }, [status]);
   const { userData, loading } = useUserData(userEmail);
   // temp data (will be fetched using params.dashboard_id)
-  const [soundsData, setSoundsData] = useState([
-    {
-      sound_id: "sound_1",
-      name: "Sound 1",
-      board_id: "sound_1",
-      file: "https://www.myinstants.com/media/sounds/bruh-sound-effect_WstdzdM.mp3",
-      logo: "https://robohash.org/sound_1",
-      lastPlayed: "2021-10-10T12:00:00.000Z",
-    },
-    {
-      sound_id: "sound_2",
-      name: "Sound 2",
-      board_id: "sound_2",
-      file: "https://www.myinstants.com/media/sounds/duck-toy-sound.mp3",
-      logo: "https://robohash.org/sound_2",
-      lastPlayed: "2021-10-10T12:00:00.000Z",
-    },
-  ]);
+  const [soundsData, setSoundsData] = useState([]);
   // temp soundboard data that will be fetched later
-  const [soundboards, setSoundboards] = useState([
-    {
-      id: "sound_1",
-      name: "Soundboard 1",
-      logo: "https://robohash.org/helloworld",
-      visibility: "Private",
-    },
-    {
-      id: "sound_2",
-      name: "Soundboard 2",
-      logo: "https://robohash.org/hello",
-      visibility: "Public",
-    },
-  ]);
-  const [dashboardId, setDashboardId] = useState("");
-  const [dashboardImage, setDashboardImage] = useState("");
-  const [boardVisibility, setBoardVisibility] = useState("");
+  const [soundboards, setSoundboards] = useState([]);
+  const [dashboardId, setDashboardId] = useState(params.dashboard_id);
+  const [dashboardImage, setDashboardImage] = useState(
+    "https://robohash.org/hello" + params.dashboard_id
+  );
+  const [boardVisibility, setBoardVisibility] = useState("public");
 
   // Update dashboard ID and image when soundboards changes
   useEffect(() => {
@@ -77,14 +50,15 @@ const page = ({ params }) => {
       (sb) => sb.board_id === params.dashboard_id
     );
     if (soundboard) {
-      setDashboardId(soundboard.board_id);
+      setDashboardId(soundboard.$id);
       setDashboardImage(soundboard.logo);
       setBoardVisibility(soundboard.visibility);
-      setSoundsData(soundboard[params.dashboard_id]?.sounds);
+      setBoardName(soundboard.name);
+      setSoundsData(soundboard.sounds);
     }
   }, [soundboards, params.dashboard_id]);
   const [isDialogOpen, setIsDialogOpen] = useState(false);
-  const [boardName, setBoardName] = useState("");
+  const [boardName, setBoardName] = useState("Board");
   const [visibility, setVisibility] = useState("public");
   const [image, setImage] = useState("https://robohash.org/placeholder");
   const [isNameValid, setIsNameValid] = useState(true);
@@ -96,6 +70,8 @@ const page = ({ params }) => {
   const handleNextClick = () => {
     setIsDialogOpen(false);
     if (boardName !== "") {
+      // board_id, name, logo, visibility
+      updateBoard(dashboardId, boardName, image, visibility);
       // saveBoard(boardName, creator, image, visibility, boardID, 0);
     }
   };
@@ -113,14 +89,23 @@ const page = ({ params }) => {
     if (userData) {
       console.log("userData", userData?.boards);
       setSoundboards(userData.boards);
+
       // console.log("soundboards", soundboards);
     }
   }, [userData, loading]);
   return (
     <div className="w-full h-full py-2 px-4 gap-4 flex flex-col">
       {/* add click to edit board page */}
-      <Dialog>
-        <DialogTrigger className="soundboard-card w-full h-24 flex items-center hover:bg-utility transition-all rounded-md cursor-pointer px-4">
+      <Dialog
+        open={isDialogOpen}
+        onOpenChange={
+          (value) => setIsDialogOpen(value) // eslint-disable-line
+        }
+      >
+        <DialogTrigger
+          className="soundboard-card w-full h-24 flex items-center hover:bg-utility transition-all rounded-md cursor-pointer px-4"
+          onClick={() => setIsDialogOpen(true)}
+        >
           <div className="h-4/5 w-4/5 flex gap-6">
             <div className="pic aspect-square h-full bg-utility rounded-md flex justify-center items-center">
               <Image
@@ -132,7 +117,7 @@ const page = ({ params }) => {
               ></Image>
             </div>
             <div className="desc flex flex-col h-full w-full gap-1.5 py-1.5 justify-start flex text-start">
-              <h1 className="text-3xl font-semibold">{dashboardId}</h1>
+              <h1 className="text-3xl font-semibold">{boardName}</h1>
               <span className="gradient-text font-regular">
                 {boardVisibility} Soundboard
               </span>
@@ -194,7 +179,10 @@ const page = ({ params }) => {
               >
                 Save
               </button>
-              <button className="px-2 py-1 bg-background font-semibold w-20 rounded-sm hover:opacity-75 transition-all border border-utility border-[1px]">
+              <button
+                className="px-2 py-1 bg-background font-semibold w-20 rounded-sm hover:opacity-75 transition-all border border-utility border-[1px]"
+                onClick={() => setIsDialogOpen(false)}
+              >
                 Delete
               </button>
             </div>

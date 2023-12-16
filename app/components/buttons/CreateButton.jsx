@@ -77,7 +77,12 @@ const CreateButton = ({ isSidebarOpen, isTextVisible }) => {
   }, [visibility, name, image]);
 
   return (
-    <Dialog open={isDialogOpen}>
+    <Dialog
+      open={isDialogOpen}
+      onOpenChange={
+        (value) => setIsDialogOpen(value) // eslint-disable-line
+      }
+    >
       <DialogTrigger className="mb-4">
         <div
           onClick={() => setIsDialogOpen(true)}
