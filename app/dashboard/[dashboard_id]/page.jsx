@@ -105,13 +105,13 @@ const page = ({ params }) => {
         }
       >
         <DialogTrigger
-          className="soundboard-card w-full h-24 flex items-center hover:bg-utility transition-all rounded-md cursor-pointer px-4"
+          className="soundboard-card w-4/5 h-32 flex items-center hover:bg-utility transition-all rounded-md cursor-pointer px-4"
           onClick={() => setIsDialogOpen(true)}
         >
-          <div className="h-4/5 w-4/5 flex gap-6">
+          <div className="h-4/5 w-4/5 flex gap-6 ">
             <div className="pic aspect-square h-full bg-utility rounded-md flex justify-center items-center">
               <Image
-                className="object-cover rounded-md w-18 h-18"
+                className="object-cover rounded-md w-fit"
                 src={dashboardImage}
                 width={72}
                 height={72}
@@ -175,10 +175,10 @@ const page = ({ params }) => {
               </div>
             </div>
             {!isNameValid && (
-                  <div className="text-red-500 bg-opacity-20	 text-xs bg-red-400 px-2 py-1 w-40 text-center rounded-full">
-                    Please enter a name
-                  </div>
-                )}
+              <div className="text-red-500 bg-opacity-20	 text-xs bg-red-400 px-2 py-1 w-40 text-center rounded-full">
+                Please enter a name
+              </div>
+            )}
             <div className="flex gap-4">
               <button
                 className="px-2 py-1 bg-accent font-semibold w-20 rounded-sm hover:bg-primary transition-all"
@@ -198,7 +198,11 @@ const page = ({ params }) => {
       </Dialog>
 
       <div className="sounds-container w-full h-fit px-4 flex gap-4">
-        <AddSound bID={dashboardId} creator={creator} setSoundsData={setSoundsData} />
+        <AddSound
+          bID={dashboardId}
+          creator={creator}
+          setSoundsData={setSoundsData}
+        />
         {soundsData?.map((sound) => (
           <SoundButton
             key={sound.sound_id}
