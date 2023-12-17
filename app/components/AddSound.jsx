@@ -3,6 +3,7 @@ import { useEffect } from "react";
 import Image from "next/image";
 import Sound from "@/app/components/logos/Sound";
 import { useState } from "react";
+import { saveSound } from "@/app/queries/sound";
 import {
   Dialog,
   DialogContent,
@@ -15,18 +16,52 @@ import { Input } from "@/components/ui/input";
 import ImageUpload from "@/app/components/ImageUpload";
 import BigPlus from "@/app/components/logos/BigPlus";
 import SoundUpload from "@/app/components/SoundUpload";
-const SoundButton = ({ bID, creator }) => {
+const SoundButton = ({ bID, creator, setSoundsData }) => {
   const [isDialogOpen, setIsDialogOpen] = useState(false);
   const [name, setName] = useState("");
   const [boardID, setBoardID] = useState(bID);
   const [soundID, setSoundID] = useState("");
   const [image, setImage] = useState("https://robohash.org/placeholder");
-  const [sound, setSound] = useState("https://robohash.org/placeholder");
+  const [sound, setSound] = useState("");
   const [isNameValid, setIsNameValid] = useState(true);
   const [creatorID, setCreatorID] = useState(creator);
+  const [isSoundValid, setIsSoundValid] = useState(false);
   const handleNextClick = () => {
-    if (isNameValid) {
-      alert("Sound added successfully");
+    setIsSoundValid(sound !== "");
+    if (isNameValid && isSoundValid) {
+      // alert("Sound added successfully");
+      // sound_id,
+      // name,
+      // logo,
+      // file,
+      // plays,
+      // creator,
+      // board,
+      // last_played
+      saveSound(
+        soundID,
+        name,
+        image,
+        sound,
+        0,
+        creatorID,
+        boardID,
+        new Date().toISOString()
+      );
+      setSoundsData((prev) => [
+        ...prev,
+        {
+          sound_id: soundID,
+          name,
+          logo: image,
+          file: sound,
+          plays: 0,
+          creator: creatorID,
+          board: boardID,
+          last_played: new Date().toISOString(),
+        },
+      ]);
+
       setIsDialogOpen(false);
     }
   };
@@ -50,7 +85,7 @@ const SoundButton = ({ bID, creator }) => {
     if (image.includes("robohash") && name !== "") {
       setImage("https://robohash.org/" + name.replace(" ", ""));
     }
-  }, [name, image]);
+  }, [name, image,sound,image]);
 
   useEffect(() => {
     setBoardID(bID);
@@ -58,6 +93,11 @@ const SoundButton = ({ bID, creator }) => {
   useEffect(() => {
     setCreatorID(creator);
   }, [creator]);
+
+  useEffect(() => {
+    setSound(sound);
+    setIsSoundValid(sound !== "");
+  }, [sound]);
   return (
     <Dialog
       open={isDialogOpen}
@@ -117,7 +157,7 @@ const SoundButton = ({ bID, creator }) => {
                   </span>
                 </div>
 
-                <ImageUpload />
+                <ImageUpload setImage={setImage} />
               </div>
               <div className="Name flex gap-4 flex items-start">
                 <div className="justify-between flex flex-col gap-2">
@@ -128,7 +168,21 @@ const SoundButton = ({ bID, creator }) => {
                     sound
                   </span>
                 </div>
-                <SoundUpload />
+                <SoundUpload setSound={setSound} />
+              </div>
+              <div className="error flex gap-2">
+                {/* show error message when sound not valid */}
+                {!isSoundValid && (
+                  <div className="text-red-500 bg-opacity-20	 text-xs bg-red-400 px-2 py-1 w-40 text-center rounded-full">
+                    Please select a sound
+                  </div>
+                )}
+                {/* show error message when name not valid */}
+                {!isNameValid && (
+                  <div className="text-red-500 bg-opacity-20	 text-xs bg-red-400 px-2 py-1 w-40 text-center rounded-full">
+                    Please enter a name
+                  </div>
+                )}
               </div>
             </div>
             <button

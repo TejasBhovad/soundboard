@@ -2,7 +2,7 @@
 
 import { UploadDropzone } from "@uploadthing/react";
 
-const ImageUpload = ({ setImage }) => {
+const SoundUpload = ({ setSound }) => {
   return (
     // <div className="h-20 w-80 bg-background border-[1px] border-utility border-dashed flex justify-center items-center text-xs rounded-md gap-2">
     //   <div className="flex flex-col justify-center items-center gap-1">
@@ -15,12 +15,12 @@ const ImageUpload = ({ setImage }) => {
     // </div>
     <UploadDropzone
       className="mt-0 p-2 w-80 bg-background border-[1px] border-utility border-dashed flex justify-center items-center text-xs rounded-md gap-2 ut-label:text-xs ut-upload-icon:h-8 gap-1 ut-button:px-0.5 ut-button:py-0.5 ut-button:rounded-sm ut-button:bg-primary ut-label:text-gray-200 ut-button:text-xs ut-button:h-8 ut-allowed-content:"
-      endpoint="imageUploader"
+      endpoint="soundUploader"
       onClientUploadComplete={(res) => {
         // Do something with the response
         console.log("Files: ", res[0].ur);
-        setImage(res[0].url);
-        alert("Upload Completed");
+        setSound(res[0].url);
+        // alert("Upload Completed");
       }}
       onUploadError={(error) => {
         // Do something with the error.
@@ -30,4 +30,4 @@ const ImageUpload = ({ setImage }) => {
   );
 };
 
-export default ImageUpload;
+export default SoundUpload;

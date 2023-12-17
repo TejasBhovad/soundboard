@@ -2,6 +2,7 @@
 import { useSession } from "next-auth/react";
 import { useUserData } from "@/app/hooks/db";
 import { updateBoard } from "@/app/queries/board";
+import { saveSound } from "@/app/queries/sound";
 import "../../styles/Utils.css";
 import Image from "next/image";
 import SoundButton from "@/app/components/SoundButton";
@@ -173,6 +174,11 @@ const page = ({ params }) => {
                 <ImageUpload setImage={setImage} />
               </div>
             </div>
+            {!isNameValid && (
+                  <div className="text-red-500 bg-opacity-20	 text-xs bg-red-400 px-2 py-1 w-40 text-center rounded-full">
+                    Please enter a name
+                  </div>
+                )}
             <div className="flex gap-4">
               <button
                 className="px-2 py-1 bg-accent font-semibold w-20 rounded-sm hover:bg-primary transition-all"
@@ -192,7 +198,7 @@ const page = ({ params }) => {
       </Dialog>
 
       <div className="sounds-container w-full h-fit px-4 flex gap-4">
-        <AddSound bID={dashboardId} creator={creator} />
+        <AddSound bID={dashboardId} creator={creator} setSoundsData={setSoundsData} />
         {soundsData?.map((sound) => (
           <SoundButton
             key={sound.sound_id}

@@ -86,7 +86,7 @@ const Sidebar = () => {
       role="navigation"
       aria-label="Main Navigation"
       className={`bg-secondary text-white h-full border-[1px] border-utility flex py-4 flex-col gap-2 ${
-        isSidebarOpen ? "w-56 px-3.5" : "w-16 px-2.5"
+        isSidebarOpen ? "w-60 px-3.5" : "w-16 px-2.5"
       } transition-all`}
     >
       {/* Create Board button */}
@@ -109,7 +109,7 @@ const Sidebar = () => {
           </span>
         </button>
         {isTextVisible && (
-          <div className="flex items-center h-full font-semibold text-md overflow-hidden whitespace-nowrap">
+          <div className="flex items-center h-full font-semibold text-md overflow-hidden whitespace-nowrap px-2 transition-all">
             Your Boards
           </div>
         )}
