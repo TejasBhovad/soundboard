@@ -1,4 +1,5 @@
 "use client";
+// import { ID } from "appwrite";
 import { useEffect } from "react";
 import Image from "next/image";
 import Sound from "@/app/components/logos/Sound";
@@ -16,7 +17,7 @@ import { Input } from "@/components/ui/input";
 import ImageUpload from "@/app/components/ImageUpload";
 import BigPlus from "@/app/components/logos/BigPlus";
 import SoundUpload from "@/app/components/SoundUpload";
-const SoundButton = ({ bID, creator, setSoundsData }) => {
+const SoundButton = ({ bID, creator, setSoundsData, setRefetch }) => {
   const [isDialogOpen, setIsDialogOpen] = useState(false);
   const [name, setName] = useState("");
   const [boardID, setBoardID] = useState(bID);
@@ -48,19 +49,21 @@ const SoundButton = ({ bID, creator, setSoundsData }) => {
         boardID,
         new Date().toISOString()
       );
-      setSoundsData((prev) => [
-        ...prev,
-        {
-          sound_id: soundID,
-          name,
-          logo: image,
-          file: sound,
-          plays: 0,
-          creator: creatorID,
-          board: boardID,
-          last_played: new Date().toISOString(),
-        },
-      ]);
+      // setSoundsData((prev) => [
+      //   ...prev,
+      //   {
+      //     // $id: ID(),
+      //     sound_id: soundID,
+      //     name,
+      //     logo: image,
+      //     file: sound,
+      //     plays: 0,
+      //     creator: creatorID,
+      //     board: boardID,
+      //     last_played: new Date().toISOString(),
+      //   },
+      // ]);
+      setRefetch((prev) => !prev);
 
       setIsDialogOpen(false);
     }
@@ -85,7 +88,7 @@ const SoundButton = ({ bID, creator, setSoundsData }) => {
     if (image.includes("robohash") && name !== "") {
       setImage("https://robohash.org/" + name.replace(" ", ""));
     }
-  }, [name, image,sound,image]);
+  }, [name, image, sound, image]);
 
   useEffect(() => {
     setBoardID(bID);

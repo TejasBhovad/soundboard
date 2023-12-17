@@ -3,6 +3,7 @@ import { getUserByEmail } from "../queries/user";
 export function useUserData(email) {
   const [userData, setUserData] = useState(null);
   const [loading, setLoading] = useState(true);
+  const [refetch, setRefetch] = useState(false);
 
   useEffect(() => {
     const fetchUserData = async () => {
@@ -14,7 +15,8 @@ export function useUserData(email) {
       }
     };
     fetchUserData();
-  }, [email]);
+    setRefetch(false);
+  }, [email, refetch]);
 
-  return { userData, loading };
+  return { userData, loading, setRefetch };
 }

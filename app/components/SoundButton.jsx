@@ -75,6 +75,10 @@ const SoundButton = ({
     setTempFile(file);
   }, [name, logo, file]);
 
+  useEffect(() => {
+    setSoundID(sound_id);
+  }, [sound_id]);
+
   // set temp states to current sound data
   useEffect(() => {
     setSoundName(tempName);
@@ -101,8 +105,13 @@ const SoundButton = ({
   };
 
   const handleDeleteClick = () => {
-    deleteSound(soundID);
-    setSoundsData((prev) => prev.filter((sound) => sound.sound_id !== soundID));
+    console.log("Delete clicked");
+    console.log("soundID", sound_id);
+    if (soundID !== undefined) {
+      deleteSound(soundID);
+      setIsDialogOpen(false);
+      setSoundsData((prev) => prev.filter((sound) => sound.$id !== soundID));
+    }
   };
 
   return (

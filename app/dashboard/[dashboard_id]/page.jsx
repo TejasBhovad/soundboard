@@ -36,7 +36,7 @@ const page = ({ params }) => {
       setUserEmail(session.user.email);
     }
   }, [status]);
-  const { userData, loading } = useUserData(userEmail);
+  const { userData, loading, setRefetch } = useUserData(userEmail);
   const creator = userData?.$id;
   // temp data (will be fetched using params.dashboard_id)
   const [soundsData, setSoundsData] = useState([]);
@@ -210,6 +210,7 @@ const page = ({ params }) => {
           bID={dashboardId}
           creator={creator}
           setSoundsData={setSoundsData}
+          setRefetch={setRefetch}
         />
         {soundsData?.map((sound) => (
           <SoundButton
