@@ -35,7 +35,6 @@ function Page() {
           Authenticated: {session.user.email} <br />
           Recent Board: {firstRecentBoard}
           <br />
-          {JSON.stringify(userData)}
         </h1>
       ) : (
         <h1>Not Authenticated</h1>

@@ -83,6 +83,7 @@ const page = ({ params }) => {
   const handleDeleteClick = () => {
     setIsDialogOpen(false);
     deleteBoard(dashboardId);
+    setRefetch((prev) => !prev);
     router.push(`/dashboard/`);
   };
 
@@ -113,7 +114,7 @@ const page = ({ params }) => {
         }
       >
         <DialogTrigger
-          className="soundboard-card w-4/5 h-32 flex items-center hover:bg-utility transition-all rounded-md cursor-pointer px-4"
+          className="soundboard-card w-11/12 h-32 flex items-center hover:bg-utility transition-all rounded-md cursor-pointer px-4"
           onClick={() => setIsDialogOpen(true)}
         >
           <div className="h-4/5 w-4/5 flex gap-6 ">
@@ -226,8 +227,6 @@ const page = ({ params }) => {
           />
         ))}
       </div>
-      {JSON.stringify(soundboards)}
-      {JSON.stringify(soundsData)}
     </div>
   );
 };

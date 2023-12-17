@@ -23,18 +23,7 @@ const Sidebar = () => {
   const [isMounted, setIsMounted] = useState(false);
 
   // temp soundboard data that will be fetched later
-  const [soundboards, setSoundboards] = useState([
-    {
-      board_id: "sound_1",
-      name: "Soundboard 1",
-      logo: "https://robohash.org/helloworld",
-    },
-    {
-      board_id: "sound_2",
-      name: "Soundboard 2",
-      logo: "https://robohash.org/hello",
-    },
-  ]);
+  const [soundboards, setSoundboards] = useState([]);
   // const creator = userData?.$id;
   // setSoundboards(userData?.boards);
 
