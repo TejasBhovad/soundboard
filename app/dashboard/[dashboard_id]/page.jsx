@@ -1,8 +1,9 @@
 "use client";
 import { useSession } from "next-auth/react";
 import { useUserData } from "@/app/hooks/db";
-import { updateBoard } from "@/app/queries/board";
-import { saveSound } from "@/app/queries/sound";
+import { useRouter } from "next/navigation";
+import { updateBoard, deleteBoard } from "@/app/queries/board";
+
 import "../../styles/Utils.css";
 import Image from "next/image";
 import SoundButton from "@/app/components/SoundButton";
@@ -26,6 +27,7 @@ import {
 } from "@/components/ui/select";
 import { Input } from "@/components/ui/input";
 const page = ({ params }) => {
+  const router = useRouter();
   const { data: session, status } = useSession();
 
   const [userEmail, setUserEmail] = useState(null);
@@ -78,10 +80,16 @@ const page = ({ params }) => {
     }
   };
 
+  const handleDeleteClick = () => {
+    setIsDialogOpen(false);
+    deleteBoard(dashboardId);
+    router.push(`/dashboard/`);
+  };
+
   useEffect(() => {
-    console.log("visibility", visibility);
-    console.log("name", boardName);
-    console.log("image", image);
+    // console.log("visibility", visibility);
+    // console.log("name", boardName);
+    // console.log("image", image);
     if (image.includes("robohash") && boardName !== "") {
       setImage("https://robohash.org/" + boardName.replace(" ", ""));
     }
@@ -89,7 +97,7 @@ const page = ({ params }) => {
   useEffect(() => {
     if (loading) return;
     if (userData) {
-      console.log("userData", userData?.boards);
+      // console.log("userData", userData?.boards);
       setSoundboards(userData.boards);
 
       // console.log("soundboards", soundboards);
@@ -188,7 +196,7 @@ const page = ({ params }) => {
               </button>
               <button
                 className="px-2 py-1 bg-background font-semibold w-20 rounded-sm hover:opacity-75 transition-all border border-utility border-[1px]"
-                onClick={() => setIsDialogOpen(false)}
+                onClick={handleDeleteClick}
               >
                 Delete
               </button>
@@ -210,6 +218,10 @@ const page = ({ params }) => {
             file={sound.file}
             logo={sound.logo}
             setSoundsData={setSoundsData}
+            sound_id={sound.$id}
+            bID={dashboardId}
+            creator={creator}
+            plays={sound.plays}
           />
         ))}
       </div>

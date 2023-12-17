@@ -18,7 +18,7 @@ const SoundUpload = ({ setSound }) => {
       endpoint="soundUploader"
       onClientUploadComplete={(res) => {
         // Do something with the response
-        console.log("Files: ", res[0].ur);
+        // console.log("Files: ", res[0].ur);
         setSound(res[0].url);
         // alert("Upload Completed");
       }}

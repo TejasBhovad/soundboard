@@ -76,7 +76,7 @@ const Sidebar = () => {
   useEffect(() => {
     if (loading) return;
     if (userData) {
-      console.log("userData", userData?.boards);
+      // console.log("userData", userData?.boards);
       setSoundboards(userData.boards);
       // console.log("soundboards", soundboards);
     }
@@ -93,6 +93,7 @@ const Sidebar = () => {
       <CreateButton
         isSidebarOpen={isSidebarOpen}
         isTextVisible={isTextVisible}
+        setSoundboards={setSoundboards}
       />
 
       {/* Your Boards button */}

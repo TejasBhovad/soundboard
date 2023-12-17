@@ -96,8 +96,22 @@ const updateBoard = async (board_id, name, logo, visibility) => {
     console.log(error);
   }
 };
+
+const deleteBoard = async (board_id) => {
+  try {
+    const response = await databases.deleteDocument(
+      process.env.NEXT_PUBLIC_APPWRITE_DB_ID,
+      process.env.NEXT_PUBLIC_APPWRITE_BOARDS_ID,
+      board_id
+    );
+    return response;
+  } catch (error) {
+    console.log(error);
+  }
+}
 export {
   saveBoard,
+  deleteBoard,
   getBoardById,
   getBoardsByCreator,
   updateBoard,

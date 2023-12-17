@@ -2,6 +2,7 @@ import { Client, Databases } from "appwrite";
 import { ID } from "appwrite";
 import { Query } from "appwrite";
 
+
 const client = new Client();
 const databases = new Databases(client);
 client
@@ -94,8 +95,55 @@ const getSoundsByBoardAndCreator = async (board, creator) => {
   }
 };
 
+const updateSound = async (
+  sound_id,
+  name,
+  logo,
+  file,
+  plays,
+  creator,
+  board,
+  last_played
+) => {
+  try {
+    await databases.updateDocument(
+      process.env.NEXT_PUBLIC_APPWRITE_DB_ID,
+      process.env.NEXT_PUBLIC_APPWRITE_SOUNDS_ID,
+      sound_id,
+      {
+        sound_id,
+        name,
+        logo,
+        file,
+        plays,
+        creator,
+        board,
+        last_played,
+      }
+    );
+    console.log("Sound updated successfully");
+  } catch (error) {
+    console.log(error);
+  }
+};
+
+const deleteSound = async (sound_id) => {
+  try {
+    await databases.deleteDocument(
+      process.env.NEXT_PUBLIC_APPWRITE_DB_ID,
+      process.env.NEXT_PUBLIC_APPWRITE_SOUNDS_ID,
+      sound_id
+    );
+    console.log("Sound deleted successfully");
+  } catch (error) {
+    console.log(error);
+  }
+};
+
 export {
   saveSound,
+  updateSound,
+  deleteSound,
   getSoundById,
   getSoundsByBoard,
   getSoundsByCreator,

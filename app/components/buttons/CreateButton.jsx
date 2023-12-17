@@ -23,7 +23,7 @@ import ImageUpload from "@/app/components/ImageUpload";
 import Plus from "@/app/components/logos/Plus";
 import Image from "next/image";
 
-const CreateButton = ({ isSidebarOpen, isTextVisible }) => {
+const CreateButton = ({ isSidebarOpen, isTextVisible, setSoundboards }) => {
   const { data: session, status } = useSession();
 
   const [userEmail, setUserEmail] = useState(null);
@@ -56,18 +56,28 @@ const CreateButton = ({ isSidebarOpen, isTextVisible }) => {
     setIsDialogOpen(false);
     setIsNameValid(name !== "");
     if (name !== "") {
+      setSoundboards((prev) => [
+        ...prev,
+        {
+          name,
+          logo: image,
+          board_id: boardID,
+          visibility,
+          sounds: [],
+        },
+      ]);
       saveBoard(name, creator, image, visibility, boardID, 0);
     }
   };
 
   useEffect(() => {
-    console.log("visibility", visibility);
-    console.log("name", name);
-    console.log("boardID", boardID);
-    console.log("image", image);
-    console.log(userEmail);
-    console.log(creator);
-    
+    // console.log("visibility", visibility);
+    // console.log("name", name);
+    // console.log("boardID", boardID);
+    // console.log("image", image);
+    // console.log(userEmail);
+    // console.log(creator);
+
     if (image.includes("robohash") && name !== "") {
       setImage("https://robohash.org/" + name.replace(" ", ""));
     }
@@ -76,9 +86,7 @@ const CreateButton = ({ isSidebarOpen, isTextVisible }) => {
   return (
     <Dialog
       open={isDialogOpen}
-      onOpenChange={
-        (value) => setIsDialogOpen(value)
-      }
+      onOpenChange={(value) => setIsDialogOpen(value)}
     >
       <DialogTrigger className="mb-4">
         <div
@@ -111,9 +119,7 @@ const CreateButton = ({ isSidebarOpen, isTextVisible }) => {
                   className="text-gray-500"
                   defaultValue="public"
                   value={visibility}
-                  onValueChange={
-                    (value) => setVisibility(value) 
-                  }
+                  onValueChange={(value) => setVisibility(value)}
                 >
                   <SelectTrigger className="w-[180px] h-8">
                     <SelectValue placeholder="Public" />

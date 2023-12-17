@@ -76,12 +76,12 @@ const SoundButton = ({ bID, creator, setSoundsData }) => {
   };
 
   useEffect(() => {
-    console.log("name", name);
-    console.log("soundID", soundID);
-    console.log("boardID", boardID);
-    console.log("image", image);
-    console.log("sound", sound);
-    console.log("creatorID", creatorID);
+    // console.log("name", name);
+    // console.log("soundID", soundID);
+    // console.log("boardID", boardID);
+    // console.log("image", image);
+    // console.log("sound", sound);
+    // console.log("creatorID", creatorID);
     if (image.includes("robohash") && name !== "") {
       setImage("https://robohash.org/" + name.replace(" ", ""));
     }
@@ -98,6 +98,7 @@ const SoundButton = ({ bID, creator, setSoundsData }) => {
     setSound(sound);
     setIsSoundValid(sound !== "");
   }, [sound]);
+
   return (
     <Dialog
       open={isDialogOpen}

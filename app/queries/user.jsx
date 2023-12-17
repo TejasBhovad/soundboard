@@ -32,29 +32,29 @@ const saveUser = async (
 ) => {
   try {
     // log all the data
-    console.log(
-      "name: " +
-        name +
-        "\n" +
-        "user_id: " +
-        user_id +
-        "\n" +
-        "picture: " +
-        picture +
-        "\n" +
-        "email: " +
-        email +
-        "\n" +
-        "status: " +
-        status +
-        "\n" +
-        "last_payment: " +
-        last_payment +
-        "\n" +
-        "recent_boards: " +
-        recent_boards +
-        "\n"
-    );
+    // console.log(
+    //   "name: " +
+    //     name +
+    //     "\n" +
+    //     "user_id: " +
+    //     user_id +
+    //     "\n" +
+    //     "picture: " +
+    //     picture +
+    //     "\n" +
+    //     "email: " +
+    //     email +
+    //     "\n" +
+    //     "status: " +
+    //     status +
+    //     "\n" +
+    //     "last_payment: " +
+    //     last_payment +
+    //     "\n" +
+    //     "recent_boards: " +
+    //     recent_boards +
+    //     "\n"
+    // );
     await databases.createDocument(
       process.env.NEXT_PUBLIC_APPWRITE_DB_ID,
       process.env.NEXT_PUBLIC_APPWRITE_USERS_ID,

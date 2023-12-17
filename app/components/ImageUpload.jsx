@@ -18,7 +18,7 @@ const ImageUpload = ({ setImage }) => {
       endpoint="imageUploader"
       onClientUploadComplete={(res) => {
         // Do something with the response
-        console.log("Files: ", res[0].ur);
+        // console.log("Files: ", res[0].ur);
         setImage(res[0].url);
         alert("Upload Completed");
       }}
