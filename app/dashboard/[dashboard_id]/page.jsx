@@ -3,7 +3,7 @@ import { useSession } from "next-auth/react";
 import { useUserData } from "@/app/hooks/db";
 import { useRouter } from "next/navigation";
 import { updateBoard, deleteBoard } from "@/app/queries/board";
-
+import {updateRecentBoards} from "@/app/queries/user";
 import "../../styles/Utils.css";
 import Image from "next/image";
 import SoundButton from "@/app/components/SoundButton";
@@ -104,6 +104,12 @@ const page = ({ params }) => {
       // console.log("soundboards", soundboards);
     }
   }, [userData, loading]);
+
+  useEffect(() => {
+    if (creator && dashboardId) {
+      updateRecentBoards(creator, dashboardId);
+    }
+  }, [creator]);
   return (
     <div className="w-full h-full py-2 px-4 gap-4 flex flex-col">
       {/* add click to edit board page */}

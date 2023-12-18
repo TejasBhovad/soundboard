@@ -74,4 +74,20 @@ const saveUser = async (
     console.log(error);
   }
 };
-export { getUserByEmail, saveUser };
+
+const updateRecentBoards = async (user_id, board_id) => {
+  try {
+    const response = await databases.updateDocument(
+      process.env.NEXT_PUBLIC_APPWRITE_DB_ID,
+      process.env.NEXT_PUBLIC_APPWRITE_USERS_ID,
+      user_id,
+      {
+        recent_boards: [board_id],
+      }
+    );
+    console.log(response);
+  } catch (error) {
+    console.log(error);
+  }
+};
+export { getUserByEmail, saveUser, updateRecentBoards };
