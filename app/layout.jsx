@@ -1,4 +1,5 @@
 import { GeistSans } from "geist/font";
+import { Toaster } from "@/components/ui/toaster"
 import "./globals.css";
 import Error from "@/app/components/Error";
 import Navbar from "@/app/components/Navbar";
@@ -22,6 +23,7 @@ export default function RootLayout({ children }) {
           <div className="w-full h-full pt-12">
             <AuthProvider>{children}</AuthProvider>
           </div>
+          <Toaster />
         </ErrorBoundary>
       </body>
     </html>

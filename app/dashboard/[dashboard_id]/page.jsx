@@ -38,6 +38,7 @@ const page = ({ params }) => {
   }, [status]);
   const { userData, loading, setRefetch } = useUserData(userEmail);
   const creator = userData?.$id;
+  const recentBoards = userData?.recent_boards;
   // temp data (will be fetched using params.dashboard_id)
   const [soundsData, setSoundsData] = useState([]);
   // temp soundboard data that will be fetched later
@@ -82,6 +83,9 @@ const page = ({ params }) => {
 
   const handleDeleteClick = () => {
     setIsDialogOpen(false);
+    // remove dashboardId from recentBoards
+    recentBoards.splice(recentBoards.indexOf(dashboardId), 1);
+    updateRecentBoards(creator, recentBoards);
     deleteBoard(dashboardId);
     setRefetch((prev) => !prev);
     router.push(`/dashboard/`);
@@ -98,7 +102,7 @@ const page = ({ params }) => {
   useEffect(() => {
     if (loading) return;
     if (userData) {
-      // console.log("userData", userData?.boards);
+      // console.log("userData", userData?.recent_boards);
       setSoundboards(userData.boards);
 
       // console.log("soundboards", soundboards);
@@ -106,8 +110,19 @@ const page = ({ params }) => {
   }, [userData, loading]);
 
   useEffect(() => {
-    if (creator && dashboardId) {
-      updateRecentBoards(creator, dashboardId);
+    if (creator && dashboardId && recentBoards) {
+      console.log("recent_boards", recentBoards);
+      // add dashboardId to recentBoards to front of array if it doesn't exist
+      if (!recentBoards.includes(dashboardId)) {
+        recentBoards.unshift(dashboardId);
+      }
+      // if it does exist, move it to the front of the array
+      else {
+        recentBoards.splice(recentBoards.indexOf(dashboardId), 1);
+        recentBoards.unshift(dashboardId);
+      }
+      // recentBoards.push(dashboardId);
+      updateRecentBoards(creator, recentBoards);
     }
   }, [creator]);
   return (

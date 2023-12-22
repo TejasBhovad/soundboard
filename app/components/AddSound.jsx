@@ -166,7 +166,7 @@ const SoundButton = ({ bID, creator, setSoundsData, setRefetch }) => {
               <div className="Name flex gap-4 flex items-start">
                 <div className="justify-between flex flex-col gap-2">
                   <div className="aspect-square w-20 bg-background border-[1px] border-utility rounded-sm flex justify-center items-center">
-                    <Sound />
+                    <Sound sound={sound} />
                   </div>{" "}
                   <span className="w-full items-center flex justify-center text-gray-500 bg-secondary border-solid border-[1px] border-utility rounded-sm">
                     sound

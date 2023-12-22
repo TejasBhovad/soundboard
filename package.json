@@ -11,6 +11,7 @@
   "dependencies": {
     "@radix-ui/react-dialog": "^1.0.5",
     "@radix-ui/react-select": "^2.0.0",
+    "@radix-ui/react-toast": "^1.1.5",
     "@uploadthing/react": "^6.0.2",
     "appwrite": "^13.0.1",
     "class-variance-authority": "^0.7.0",

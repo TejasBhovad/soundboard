@@ -1,8 +1,10 @@
 "use client";
+import { useToast } from "@/components/ui/use-toast";
 
 import { UploadDropzone } from "@uploadthing/react";
 
 const SoundUpload = ({ setSound }) => {
+  const { toast } = useToast();
   return (
     // <div className="h-20 w-80 bg-background border-[1px] border-utility border-dashed flex justify-center items-center text-xs rounded-md gap-2">
     //   <div className="flex flex-col justify-center items-center gap-1">
@@ -19,7 +21,13 @@ const SoundUpload = ({ setSound }) => {
       onClientUploadComplete={(res) => {
         // Do something with the response
         // console.log("Files: ", res[0].ur);
+        console.log("Files: ", res);
+        console.log("Files: ", res[0].name);
         setSound(res[0].url);
+        toast({
+          title: "Sound Upload Completed",
+          description: res[0].name,
+        });
         // alert("Upload Completed");
       }}
       onUploadError={(error) => {

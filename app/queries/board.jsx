@@ -70,7 +70,8 @@ const updateRecentBoardAndTotalPlays = async (board_id, recent_board_id) => {
       process.env.NEXT_PUBLIC_APPWRITE_USERS_ID,
       board_id,
       {
-        recent_board_id,
+        // add recent_board_id to recent_boards array
+        recent_boards: recent_boards.push(recent_board_id),
         total_plays: total_plays + 1,
       }
     );
@@ -99,6 +100,7 @@ const updateBoard = async (board_id, name, logo, visibility) => {
 
 const deleteBoard = async (board_id) => {
   try {
+    console.log("board_id", board_id);
     const response = await databases.deleteDocument(
       process.env.NEXT_PUBLIC_APPWRITE_DB_ID,
       process.env.NEXT_PUBLIC_APPWRITE_BOARDS_ID,
@@ -108,7 +110,7 @@ const deleteBoard = async (board_id) => {
   } catch (error) {
     console.log(error);
   }
-}
+};
 export {
   saveBoard,
   deleteBoard,

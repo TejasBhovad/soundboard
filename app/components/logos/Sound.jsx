@@ -1,6 +1,6 @@
 import React from "react";
 
-function Sound() {
+function Sound({ sound }) {
   return (
     <svg
       xmlns="http://www.w3.org/2000/svg"
@@ -12,7 +12,9 @@ function Sound() {
       <g clipPath="url(#clip0_15_174)">
         <path fill="" d="M0 0H24V24H0z"></path>
         <path
-          stroke="#2F2950"
+          // stroke="#2F2950"
+          // if sound is null set red else set green
+          stroke={sound ? "#8036FF" : "#2F2950"}
           strokeLinecap="round"
           strokeLinejoin="round"
           d="M3 16V8h3l5-4v16l-5-4H3zM13 9s2 .5 2 3-2 3-2 3M15 7s3 .833 3 5-3 5-3 5"

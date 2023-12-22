@@ -75,14 +75,14 @@ const saveUser = async (
   }
 };
 
-const updateRecentBoards = async (user_id, board_id) => {
+const updateRecentBoards = async (user_id, boards) => {
   try {
     const response = await databases.updateDocument(
       process.env.NEXT_PUBLIC_APPWRITE_DB_ID,
       process.env.NEXT_PUBLIC_APPWRITE_USERS_ID,
       user_id,
       {
-        recent_boards: [board_id],
+        recent_boards: boards,
       }
     );
     // console.log(response);
@@ -90,4 +90,5 @@ const updateRecentBoards = async (user_id, board_id) => {
     console.log(error);
   }
 };
+
 export { getUserByEmail, saveUser, updateRecentBoards };
