@@ -85,7 +85,7 @@ const updateRecentBoards = async (user_id, board_id) => {
         recent_boards: [board_id],
       }
     );
-    console.log(response);
+    // console.log(response);
   } catch (error) {
     console.log(error);
   }

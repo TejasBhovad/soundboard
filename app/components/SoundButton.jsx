@@ -106,9 +106,9 @@ const SoundButton = ({
 
   const handleDeleteClick = () => {
     console.log("Delete clicked");
-    console.log("soundID", sound_id);
+    // console.log("soundID", sound_id);
     if (soundID !== undefined) {
-      deleteSound(soundID);
+      deleteSound(soundID, soundLogo, soundFile);
       setIsDialogOpen(false);
       setSoundsData((prev) => prev.filter((sound) => sound.$id !== soundID));
     }

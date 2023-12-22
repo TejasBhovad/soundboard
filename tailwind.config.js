@@ -62,6 +62,8 @@ module.exports = withUt({
         logoGradientLight: "#361F5F",
         logoGradientDark: "#8036FF",
         utility: "#2F2939",
+        bgG1: "#030304",
+        bgG2: "#1E142D",
       },
       borderRadius: {
         lg: "var(--radius)",

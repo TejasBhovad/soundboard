@@ -9,6 +9,7 @@ function Page() {
   useEffect(() => {
     if (status === "authenticated") {
       setUserEmail(session.user.email);
+      console.log(session.user.email);
     }
   }, [status]);
   const { userData, loading } = useUserData(userEmail);
@@ -26,11 +27,13 @@ function Page() {
     router.push(`/dashboard/${firstRecentBoard}`);
   }, [firstRecentBoard]);
   return (
-    <div className="w-full h-full py-2 px-4">
-      <h1>No soundboards created yet</h1>
+    <div className="w-full h-full py-4 px-4">
+      <span className="text-accent text-lg font-medium px-1 gradient-text ">
+        No Soundboards Found
+      </span>
 
       {/* improve this page */}
-      {status == "authenticated" ? (
+      {/* {status == "authenticated" ? (
         <h1>
           Authenticated: {session.user.email} <br />
           Recent Board: {firstRecentBoard}
@@ -38,7 +41,7 @@ function Page() {
         </h1>
       ) : (
         <h1>Not Authenticated</h1>
-      )}
+      )} */}
     </div>
   );
 }

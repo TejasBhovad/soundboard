@@ -3,6 +3,9 @@ import GoogleProvider from "next-auth/providers/google";
 import { saveUser, getUserByEmail } from "@/app/queries/user";
 
 export const options = {
+  pages: {
+    signIn: "/auth/signin",
+  },
   providers: [
     GithubProvider({
       profile(profile) {
@@ -45,7 +48,7 @@ export const options = {
           let image;
           if (user.role === "google-user") {
             image = user.picture;
-            console.log(user);
+            // console.log(user);
           } else if (user.role === "github-user") {
             image = user.avatar_url;
           } else {

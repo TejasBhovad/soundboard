@@ -1,8 +1,8 @@
+// "use server";
 import { Client, Databases } from "appwrite";
 import { ID } from "appwrite";
 import { Query } from "appwrite";
-
-
+// import { utapi } from "server/uploadthing";
 const client = new Client();
 const databases = new Databases(client);
 client
@@ -127,8 +127,18 @@ const updateSound = async (
   }
 };
 
-const deleteSound = async (sound_id) => {
+const deleteSound = async (sound_id, sound_logo, soundFile) => {
   try {
+    // if sound_logo starts with https://utfs.io/ then delete it
+    if (sound_logo.startsWith("https://utfs.io/")) {
+      // await utapi.deleteFiles(sound_logo);
+      console.log("Deleted sound_logo");
+    }
+    // if soundFile starts with https://utfs.io/ then delete it
+    if (soundFile.startsWith("https://utfs.io/")) {
+      // await utapi.deleteFiles(soundFile.split("/").pop());
+      console.log("Deleted soundFile");
+    }
     await databases.deleteDocument(
       process.env.NEXT_PUBLIC_APPWRITE_DB_ID,
       process.env.NEXT_PUBLIC_APPWRITE_SOUNDS_ID,

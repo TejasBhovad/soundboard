@@ -7,15 +7,15 @@ export function useUserData(email) {
 
   useEffect(() => {
     const fetchUserData = async () => {
-      if (email) {
-        setLoading(true);
-        const user = await getUserByEmail(email);
-        setUserData(user);
-        setLoading(false);
-      }
+      setLoading(true);
+      const user = await getUserByEmail(email);
+      setUserData(user);
+      setLoading(false);
     };
-    fetchUserData();
-    setRefetch(false);
+    if (email) {
+      fetchUserData();
+      setRefetch(false);
+    }
   }, [email, refetch]);
 
   return { userData, loading, setRefetch };

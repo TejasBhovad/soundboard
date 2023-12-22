@@ -3,7 +3,7 @@ import { useSession } from "next-auth/react";
 import { useUserData } from "@/app/hooks/db";
 import { useRouter } from "next/navigation";
 import { updateBoard, deleteBoard } from "@/app/queries/board";
-import {updateRecentBoards} from "@/app/queries/user";
+import { updateRecentBoards } from "@/app/queries/user";
 import "../../styles/Utils.css";
 import Image from "next/image";
 import SoundButton from "@/app/components/SoundButton";
@@ -62,7 +62,7 @@ const page = ({ params }) => {
     }
   }, [soundboards, params.dashboard_id]);
   const [isDialogOpen, setIsDialogOpen] = useState(false);
-  const [boardName, setBoardName] = useState("Board");
+  const [boardName, setBoardName] = useState(params.dashboard_id.split("_")[0]);
   const [visibility, setVisibility] = useState("public");
   const [image, setImage] = useState("https://robohash.org/placeholder");
   const [isNameValid, setIsNameValid] = useState(true);

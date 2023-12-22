@@ -46,7 +46,9 @@ const CreateButton = ({ isSidebarOpen, isTextVisible, setSoundboards }) => {
     setName(event.target.value);
     const random_5 = Math.random().toString(36).substring(7);
     const bID =
-      event.target.value.replace(" ", "_").toLowerCase() + "_" + random_5;
+      event.target.value.trim().replace(" ", "_").toLowerCase() +
+      "_" +
+      random_5;
     setBoardID(bID);
     setIsNameValid(event.target.value !== "");
   };
