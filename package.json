@@ -25,7 +25,8 @@
     "react-dom": "^18",
     "tailwind-merge": "^2.0.0",
     "tailwindcss-animate": "^1.0.7",
-    "uploadthing": "^6.0.4"
+    "uploadthing": "^6.0.4",
+    "uuid": "^9.0.1"
   },
   "devDependencies": {
     "autoprefixer": "^10.0.1",

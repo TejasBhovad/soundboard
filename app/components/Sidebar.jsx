@@ -9,6 +9,7 @@ import CreateButton from "@/app/components/buttons/CreateButton";
 import { useState, useEffect, useContext } from "react";
 import { BoardsContext } from "./BoardsContext";
 const Sidebar = () => {
+
   const { data: session, status } = useSession();
   const { boardsState, setBoardsState } = useContext(BoardsContext);
   const [userEmail, setUserEmail] = useState(null);

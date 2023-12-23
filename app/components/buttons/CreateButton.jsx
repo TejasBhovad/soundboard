@@ -4,6 +4,7 @@ import { useSession } from "next-auth/react";
 import { useUserData } from "@/app/hooks/db";
 import { useContext } from "react";
 import { BoardsContext } from "../BoardsContext";
+import { useToast } from "@/components/ui/use-toast";
 import { useEffect, useState } from "react";
 import {
   Dialog,
@@ -29,11 +30,27 @@ const CreateButton = ({ isSidebarOpen, isTextVisible, setSoundboards }) => {
   const { data: session, status } = useSession();
   const { boardsState, setBoardsState } = useContext(BoardsContext);
   const [userEmail, setUserEmail] = useState(null);
+  const { toast } = useToast();
   useEffect(() => {
     if (status === "authenticated") {
       setUserEmail(session.user.email);
     }
   }, [status]);
+  const LIMIT = 2;
+
+  const handleCreateBoard = () => {
+    console.log("Create board clicked");
+    if (boardsState.length >= LIMIT) {
+      toast({
+        title: "Board limit reached",
+        description: "You can only create " + LIMIT + " boards",
+      });
+      // setIsDialogOpen(false);
+      return;
+    } else {
+      setIsDialogOpen(true);
+    }
+  };
   const { userData, loading } = useUserData(userEmail);
   const creator = userData?.$id;
   const [isDialogOpen, setIsDialogOpen] = useState(false);
@@ -100,13 +117,92 @@ const CreateButton = ({ isSidebarOpen, isTextVisible, setSoundboards }) => {
   }, [visibility, name, image]);
 
   return (
-    <Dialog
-      open={isDialogOpen}
-      onOpenChange={(value) => setIsDialogOpen(value)}
-    >
-      <DialogTrigger className="mb-4">
+    // if length is less than limit, show create board button else show div with text
+
+    boardsState.length < LIMIT ? (
+      <Dialog
+        open={isDialogOpen}
+        onOpenChange={(value) => setIsDialogOpen(value)}
+      >
+        <DialogTrigger className="mb-4">
+          <div
+            onClick={handleCreateBoard}
+            className={`collapse-btn w-full flex h-10 gap-2 items-center cursor-pointer rounded-sm bg-accent hover:bg-primary transition-all justify-center items-center ${
+              isSidebarOpen ? "" : "justify-center px-0"
+            }`}
+          >
+            <span className="flex justify-center items-center">
+              <Plus />
+            </span>
+
+            {isTextVisible && (
+              <div className="flex items-center h-full font-semibold text-md overflow-hidden whitespace-nowrap">
+                Create Board
+              </div>
+            )}
+          </div>
+        </DialogTrigger>
+        <DialogContent>
+          <DialogHeader>
+            <DialogTitle>
+              <span className="text-accent"># </span>Create new Soundboard
+            </DialogTitle>
+            <div className="text-text py-4 gap-6 flex-col flex">
+              <div className="flex-col flex justify-center gap-4">
+                <div className="visibility flex gap-4  flex items-center">
+                  <span className="w-20">Visibility</span>
+                  <Select
+                    className="text-gray-500"
+                    defaultValue="public"
+                    value={visibility}
+                    onValueChange={(value) => setVisibility(value)}
+                  >
+                    <SelectTrigger className="w-[180px] h-8">
+                      <SelectValue placeholder="Public" />
+                    </SelectTrigger>
+                    <SelectContent>
+                      <SelectItem value="public">Public</SelectItem>
+                      <SelectItem value="private">Private</SelectItem>
+                    </SelectContent>
+                  </Select>
+                </div>
+                <div className="Name flex gap-4 flex items-center">
+                  <span className="w-20">Name</span>
+                  <Input
+                    className={`w-[180px] h-8 ${
+                      !isNameValid ? "border-red-500" : ""
+                    }`}
+                    value={name}
+                    onChange={handleNameChange}
+                  />
+                </div>
+                <div className="Name flex gap-4 flex items-start">
+                  <div className="aspect-square w-20 bg-background border-[1px] border-utility rounded-sm">
+                    <Image
+                      src={image}
+                      width={80}
+                      height={80}
+                      alt="default image"
+                      className="w-full h-full"
+                    />
+                  </div>
+                  <ImageUpload setImage={setImage} />
+                </div>
+              </div>
+              <button
+                className="px-2 py-1 bg-accent font-semibold w-20 rounded-sm hover:bg-primary transition-all"
+                onClick={handleNextClick}
+              >
+                Next
+              </button>
+            </div>
+          </DialogHeader>
+        </DialogContent>
+      </Dialog>
+    ) : (
+      <div className="mb-4">
         <div
-          onClick={() => setIsDialogOpen(true)}
+          onClick={handleCreateBoard}
           className={`collapse-btn w-full flex h-10 gap-2 items-center cursor-pointer rounded-sm bg-accent hover:bg-primary transition-all justify-center items-center ${
             isSidebarOpen ? "" : "justify-center px-0"
           }`}
@@ -121,64 +217,8 @@ const CreateButton = ({ isSidebarOpen, isTextVisible, setSoundboards }) => {
             </div>
           )}
         </div>
-      </DialogTrigger>
-      <DialogContent>
-        <DialogHeader>
-          <DialogTitle>
-            <span className="text-accent"># </span>Create new Soundboard
-          </DialogTitle>
-          <div className="text-text py-4 gap-6 flex-col flex">
-            <div className="flex-col flex justify-center gap-4">
-              <div className="visibility flex gap-4  flex items-center">
-                <span className="w-20">Visibility</span>
-                <Select
-                  className="text-gray-500"
-                  defaultValue="public"
-                  value={visibility}
-                  onValueChange={(value) => setVisibility(value)}
-                >
-                  <SelectTrigger className="w-[180px] h-8">
-                    <SelectValue placeholder="Public" />
-                  </SelectTrigger>
-                  <SelectContent>
-                    <SelectItem value="public">Public</SelectItem>
-                    <SelectItem value="private">Private</SelectItem>
-                  </SelectContent>
-                </Select>
-              </div>
-              <div className="Name flex gap-4 flex items-center">
-                <span className="w-20">Name</span>
-                <Input
-                  className={`w-[180px] h-8 ${
-                    !isNameValid ? "border-red-500" : ""
-                  }`}
-                  value={name}
-                  onChange={handleNameChange}
-                />
-              </div>
-              <div className="Name flex gap-4 flex items-start">
-                <div className="aspect-square w-20 bg-background border-[1px] border-utility rounded-sm">
-                  <Image
-                    src={image}
-                    width={80}
-                    height={80}
-                    alt="default image"
-                    className="w-full h-full"
-                  />
-                </div>
-                <ImageUpload setImage={setImage} />
-              </div>
-            </div>
-            <button
-              className="px-2 py-1 bg-accent font-semibold w-20 rounded-sm hover:bg-primary transition-all"
-              onClick={handleNextClick}
-            >
-              Next
-            </button>
-          </div>
-        </DialogHeader>
-      </DialogContent>
-    </Dialog>
+      </div>
+    )
   );
 };
 

@@ -1,8 +1,7 @@
-// "use server";
 import { Client, Databases } from "appwrite";
 import { ID } from "appwrite";
 import { Query } from "appwrite";
-// import { utapi } from "server/uploadthing";
+
 const client = new Client();
 const databases = new Databases(client);
 client
@@ -15,7 +14,6 @@ const saveSound = async (
   logo,
   file,
   plays,
-  creator,
   board,
   last_played
 ) => {
@@ -30,10 +28,7 @@ const saveSound = async (
         logo,
         file,
         plays,
-        creator,
         board,
-        //   creator: data.documents[0].$id,
-        //   board: data.documents[0].boards.$id,
         last_played,
       }
     );
@@ -101,7 +96,6 @@ const updateSound = async (
   logo,
   file,
   plays,
-  creator,
   board,
   last_played
 ) => {
@@ -116,7 +110,6 @@ const updateSound = async (
         logo,
         file,
         plays,
-        creator,
         board,
         last_played,
       }

@@ -1,10 +1,10 @@
 "use client";
-// import { ID } from "appwrite";
 import { useEffect } from "react";
 import Image from "next/image";
 import Sound from "@/app/components/logos/Sound";
 import { useState } from "react";
 import { saveSound } from "@/app/queries/sound";
+import { useToast } from "@/components/ui/use-toast";
 import {
   Dialog,
   DialogContent,
@@ -17,53 +17,43 @@ import { Input } from "@/components/ui/input";
 import ImageUpload from "@/app/components/ImageUpload";
 import BigPlus from "@/app/components/logos/BigPlus";
 import SoundUpload from "@/app/components/SoundUpload";
-const SoundButton = ({ bID, creator, setSoundsData, setRefetch }) => {
+const SoundButton = ({
+  bID,
+  creator,
+  setSoundsData,
+  setRefetch,
+  soundsData,
+}) => {
   const [isDialogOpen, setIsDialogOpen] = useState(false);
   const [name, setName] = useState("");
+  const LIMIT = 2;
   const [boardID, setBoardID] = useState(bID);
   const [soundID, setSoundID] = useState("");
   const [image, setImage] = useState("https://robohash.org/placeholder");
   const [sound, setSound] = useState("");
-  const [isNameValid, setIsNameValid] = useState(true);
+  const [isNameValid, setIsNameValid] = useState(false);
+  const { toast } = useToast();
   const [creatorID, setCreatorID] = useState(creator);
   const [isSoundValid, setIsSoundValid] = useState(false);
   const handleNextClick = () => {
     setIsSoundValid(sound !== "");
     if (isNameValid && isSoundValid) {
-      // alert("Sound added successfully");
-      // sound_id,
-      // name,
-      // logo,
-      // file,
-      // plays,
-      // creator,
-      // board,
-      // last_played
       saveSound(
         soundID,
         name,
         image,
         sound,
         0,
-        creatorID,
         boardID,
         new Date().toISOString()
       );
-      // setSoundsData((prev) => [
-      //   ...prev,
-      //   {
-      //     // $id: ID(),
-      //     sound_id: soundID,
-      //     name,
-      //     logo: image,
-      //     file: sound,
-      //     plays: 0,
-      //     creator: creatorID,
-      //     board: boardID,
-      //     last_played: new Date().toISOString(),
-      //   },
-      // ]);
       setRefetch((prev) => !prev);
+
+      // reset all states
+      setName("");
+      setSoundID("");
+      setImage("https://robohash.org/placeholder");
+      setSound("");
 
       setIsDialogOpen(false);
     }
@@ -73,18 +63,23 @@ const SoundButton = ({ bID, creator, setSoundsData, setRefetch }) => {
     setIsNameValid(event.target.value !== "");
     setName(event.target.value);
     const random_5 = Math.random().toString(36).substring(7);
-    const bID =
-      event.target.value.replace(" ", "_").toLowerCase() + "_" + random_5;
-    setSoundID(bID);
+    setSoundID(
+      event.target.value.replace(" ", "_").toLowerCase() + "_" + random_5
+    );
+  };
+
+  const handleAddSound = () => {
+    if (soundsData.length < LIMIT) {
+      setIsDialogOpen(true);
+    } else {
+      toast({
+        title: "Sound limit reached",
+        description: "You can only add " + LIMIT + " sounds",
+      });
+    }
   };
 
   useEffect(() => {
-    // console.log("name", name);
-    // console.log("soundID", soundID);
-    // console.log("boardID", boardID);
-    // console.log("image", image);
-    // console.log("sound", sound);
-    // console.log("creatorID", creatorID);
     if (image.includes("robohash") && name !== "") {
       setImage("https://robohash.org/" + name.replace(" ", ""));
     }
@@ -102,12 +97,12 @@ const SoundButton = ({ bID, creator, setSoundsData, setRefetch }) => {
     setIsSoundValid(sound !== "");
   }, [sound]);
 
-  return (
+  return soundsData.length < LIMIT ? (
     <Dialog
       open={isDialogOpen}
       onOpenChange={(value) => setIsDialogOpen(value)}
     >
-      <DialogTrigger className="mb-4" onClick={() => setIsDialogOpen(true)}>
+      <DialogTrigger className="mb-4" onClick={handleAddSound}>
         <div
           className="w-28 h-32 relative rounded-sm border-[1px] border-utility overflow-hidden hover:shadow-md cursor-pointer transition-all hover:border-logoGradientLight"
           style={{
@@ -199,6 +194,28 @@ const SoundButton = ({ bID, creator, setSoundsData, setRefetch }) => {
         </DialogHeader>
       </DialogContent>
     </Dialog>
+  ) : (
+    <div className="mb-4" onClick={handleAddSound}>
+      <div
+        className="w-28 h-32 relative rounded-sm border-[1px] border-utility overflow-hidden hover:shadow-md cursor-pointer transition-all hover:border-logoGradientLight"
+        style={{
+          background:
+            "radial-gradient(circle at 50% 50%, #563284, #141317 50%)",
+        }}
+      >
+        <div className="absolute inset-0 bg-secondary bg-opacity-60 backdrop-blur-md"></div>
+        <div className="relative h-full w-full">
+          <div className="h-3/5 w-full flex justify-center items-end pb-4">
+            <span className="flex justify-center items-center">
+              <BigPlus />
+            </span>
+          </div>
+          <div className="h-2/5 w-full flex justify-center items-center font-semibold">
+            Add Sound
+          </div>
+        </div>
+      </div>
+    </div>
   );
 };
 

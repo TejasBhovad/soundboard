@@ -96,7 +96,7 @@ const SoundButton = ({
         soundLogo,
         soundFile,
         0,
-        soundCreator,
+        // soundCreator,
         soundBoard,
         new Date().toISOString()
       );
@@ -220,7 +220,13 @@ const SoundButton = ({
       </div>
       <div className="relative h-full w-full">
         <div className="h-3/5 w-full flex justify-center items-center">
-          <Image src={soundLogo} alt="sound logo" width={64} height={64} className="rounded-md"/>
+          <Image
+            src={soundLogo}
+            alt="sound logo"
+            width={64}
+            height={64}
+            className="rounded-md"
+          />
         </div>
         <div className="h-2/5 w-full flex justify-center items-center font-semibold">
           {soundName}

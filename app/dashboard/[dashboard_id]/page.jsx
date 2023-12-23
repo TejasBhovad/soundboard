@@ -89,7 +89,7 @@ const page = ({ params }) => {
   const handleDeleteClick = () => {
     setIsDialogOpen(false);
     // remove dashboardId from recentBoards
-    recentBoards.splice(recentBoards.indexOf(dashboardId), 1);
+    recentBoards.splice(recentBoards.indexOf(params.dashboard_id), 1);
     updateRecentBoards(creator, recentBoards);
     // remove delete board from context
     setBoardsState((prev) =>
@@ -241,6 +241,7 @@ const page = ({ params }) => {
           bID={dashboardId}
           creator={creator}
           setSoundsData={setSoundsData}
+          soundsData={soundsData}
           setRefetch={setRefetch}
         />
         {soundsData?.map((sound) => (
