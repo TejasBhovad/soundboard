@@ -6,11 +6,11 @@ import { useUserData } from "@/app/hooks/db";
 import Plus from "@/app/components/logos/Plus";
 import Image from "next/image";
 import CreateButton from "@/app/components/buttons/CreateButton";
-import { useState, useEffect } from "react";
-
+import { useState, useEffect, useContext } from "react";
+import { BoardsContext } from "./BoardsContext";
 const Sidebar = () => {
   const { data: session, status } = useSession();
-
+  const { boardsState, setBoardsState } = useContext(BoardsContext);
   const [userEmail, setUserEmail] = useState(null);
   useEffect(() => {
     if (status === "authenticated") {
@@ -66,10 +66,16 @@ const Sidebar = () => {
     if (loading) return;
     if (userData) {
       // console.log("userData", userData?.boards);
+      setBoardsState(userData.boards);
       setSoundboards(userData.boards);
       // console.log("soundboards", soundboards);
     }
   }, [userData, loading]);
+
+  // use effect to print chnage in context
+  useEffect(() => {
+    console.log("boardsState", boardsState);
+  }, [boardsState]);
   return (
     <nav
       role="navigation"
@@ -106,7 +112,7 @@ const Sidebar = () => {
       </div>
 
       {/* Soundboards mapping */}
-      {soundboards.map((soundboard) => (
+      {boardsState.map((soundboard) => (
         <Link
           key={soundboard.board_id}
           href={`/dashboard/${soundboard.board_id}`}

@@ -9,7 +9,7 @@ function Page() {
   useEffect(() => {
     if (status === "authenticated") {
       setUserEmail(session.user.email);
-      console.log(session.user.email);
+      // console.log(session.user.email);
     }
   }, [status]);
   const { userData, loading } = useUserData(userEmail);

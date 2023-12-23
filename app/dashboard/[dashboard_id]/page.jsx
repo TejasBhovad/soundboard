@@ -1,5 +1,7 @@
 "use client";
+import { useContext } from "react";
 import { useSession } from "next-auth/react";
+import { BoardsContext } from "@/app/components/BoardsContext";
 import { useUserData } from "@/app/hooks/db";
 import { useRouter } from "next/navigation";
 import { updateBoard, deleteBoard } from "@/app/queries/board";
@@ -29,7 +31,7 @@ import { Input } from "@/components/ui/input";
 const page = ({ params }) => {
   const router = useRouter();
   const { data: session, status } = useSession();
-
+  const { boardsState, setBoardsState } = useContext(BoardsContext);
   const [userEmail, setUserEmail] = useState(null);
   useEffect(() => {
     if (status === "authenticated") {
@@ -60,6 +62,9 @@ const page = ({ params }) => {
       setBoardVisibility(soundboard.visibility);
       setBoardName(soundboard.name);
       setSoundsData(soundboard.sounds);
+      // set context
+      setBoardsState(soundboards);
+      // console.log("soundboard", boardsState);
     }
   }, [soundboards, params.dashboard_id]);
   const [isDialogOpen, setIsDialogOpen] = useState(false);
@@ -86,6 +91,10 @@ const page = ({ params }) => {
     // remove dashboardId from recentBoards
     recentBoards.splice(recentBoards.indexOf(dashboardId), 1);
     updateRecentBoards(creator, recentBoards);
+    // remove delete board from context
+    setBoardsState((prev) =>
+      prev.filter((board) => board.board_id !== params.dashboard_id)
+    );
     deleteBoard(dashboardId);
     setRefetch((prev) => !prev);
     router.push(`/dashboard/`);

@@ -2,6 +2,8 @@
 import { saveBoard } from "@/app/queries/board";
 import { useSession } from "next-auth/react";
 import { useUserData } from "@/app/hooks/db";
+import { useContext } from "react";
+import { BoardsContext } from "../BoardsContext";
 import { useEffect, useState } from "react";
 import {
   Dialog,
@@ -25,7 +27,7 @@ import Image from "next/image";
 
 const CreateButton = ({ isSidebarOpen, isTextVisible, setSoundboards }) => {
   const { data: session, status } = useSession();
-
+  const { boardsState, setBoardsState } = useContext(BoardsContext);
   const [userEmail, setUserEmail] = useState(null);
   useEffect(() => {
     if (status === "authenticated") {
@@ -68,6 +70,18 @@ const CreateButton = ({ isSidebarOpen, isTextVisible, setSoundboards }) => {
           sounds: [],
         },
       ]);
+      // update context
+      setBoardsState((prev) => [
+        ...prev,
+        {
+          name,
+          logo: image,
+          board_id: boardID,
+          visibility,
+          sounds: [],
+        },
+      ]);
+
       saveBoard(name, creator, image, visibility, boardID, 0);
     }
   };

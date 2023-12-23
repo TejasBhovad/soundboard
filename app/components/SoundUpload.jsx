@@ -21,8 +21,8 @@ const SoundUpload = ({ setSound }) => {
       onClientUploadComplete={(res) => {
         // Do something with the response
         // console.log("Files: ", res[0].ur);
-        console.log("Files: ", res);
-        console.log("Files: ", res[0].name);
+        // console.log("Files: ", res);
+        // console.log("Files: ", res[0].name);
         setSound(res[0].url);
         toast({
           title: "Sound Upload Completed",

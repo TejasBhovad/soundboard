@@ -100,7 +100,7 @@ const updateBoard = async (board_id, name, logo, visibility) => {
 
 const deleteBoard = async (board_id) => {
   try {
-    console.log("board_id", board_id);
+    // console.log("board_id", board_id);
     const response = await databases.deleteDocument(
       process.env.NEXT_PUBLIC_APPWRITE_DB_ID,
       process.env.NEXT_PUBLIC_APPWRITE_BOARDS_ID,
