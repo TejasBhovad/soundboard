@@ -228,7 +228,7 @@ const SoundButton = ({
             className="rounded-md"
           />
         </div>
-        <div className="h-2/5 w-full flex justify-center items-center font-semibold">
+        <div className="h-2/5 w-full flex justify-center items-center font-semibold select-none">
           {soundName}
         </div>
       </div>
