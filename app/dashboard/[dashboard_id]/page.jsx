@@ -135,16 +135,17 @@ const page = ({ params }) => {
     }
   }, [creator]);
   return (
-    <div className="w-full h-full py-2 px-4 gap-4 flex flex-col">
+    <div className="w-full h-full py-6 sm:py-2 px-4 sm:px-0 gap-4 flex flex-col flex items-center sm:items-start">
       {/* add click to edit board page */}
       <Dialog
         open={isDialogOpen}
         onOpenChange={
           (value) => setIsDialogOpen(value) // eslint-disable-line
         }
+        className=" flex  "
       >
         <DialogTrigger
-          className="soundboard-card w-11/12 h-32 flex items-center hover:bg-utility transition-all rounded-md cursor-pointer px-4"
+          className="soundboard-card w-11/12 h-32 flex items-center hover:bg-utility transition-all rounded-md cursor-pointer px-4 justify-center md:justify-start "
           onClick={() => setIsDialogOpen(true)}
         >
           <div className="h-4/5 w-4/5 flex gap-6 ">
@@ -160,7 +161,9 @@ const page = ({ params }) => {
             <div className="desc flex flex-col h-full w-full gap-1.5 py-1.5 justify-start flex text-start">
               <h1 className="text-3xl font-semibold">{boardName}</h1>
               <span className="gradient-text font-regular">
-                {boardVisibility} Soundboard
+                {boardVisibility.charAt(0).toUpperCase() +
+                  boardVisibility.slice(1)}{" "}
+                Soundboard
               </span>
             </div>
           </div>
@@ -236,7 +239,7 @@ const page = ({ params }) => {
         </DialogContent>
       </Dialog>
 
-      <div className="sounds-container w-full h-fit px-4 flex gap-4">
+      <div className="sounds-container w-full h-fit px-4 grid grid-cols-2 sm:grid-cols-3 xs:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 xl:grid-cols-7 2xl:grid-cols-9 gap-4 flex justify-center place-items-center md:justify-items-start">
         <AddSound
           bID={dashboardId}
           creator={creator}

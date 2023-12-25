@@ -6,6 +6,7 @@ import { useContext } from "react";
 import { BoardsContext } from "../BoardsContext";
 import { useToast } from "@/components/ui/use-toast";
 import { useEffect, useState } from "react";
+import { useRouter } from "next/navigation";
 import {
   Dialog,
   DialogContent,
@@ -60,7 +61,7 @@ const CreateButton = ({ isSidebarOpen, isTextVisible, setSoundboards }) => {
   const [isNextClicked, setIsNextClicked] = useState(false);
   const [visibility, setVisibility] = useState("public");
   const [image, setImage] = useState("https://robohash.org/placeholder");
-
+  const router = useRouter();
   const handleNameChange = (event) => {
     setName(event.target.value);
     const random_5 = Math.random().toString(36).substring(7);
@@ -98,8 +99,12 @@ const CreateButton = ({ isSidebarOpen, isTextVisible, setSoundboards }) => {
           sounds: [],
         },
       ]);
-
-      saveBoard(name, creator, image, visibility, boardID, 0);
+      try {
+        saveBoard(name, creator, image, visibility, boardID, 0);
+        router.push(`/dashboard/${boardID}`);
+      } catch (err) {
+        console.log(err);
+      }
     }
   };
 
@@ -127,7 +132,7 @@ const CreateButton = ({ isSidebarOpen, isTextVisible, setSoundboards }) => {
         <DialogTrigger className="mb-4">
           <div
             onClick={handleCreateBoard}
-            className={`collapse-btn w-full flex h-10 gap-2 items-center cursor-pointer rounded-sm bg-accent hover:bg-primary transition-all justify-center items-center ${
+            className={`collapse-btn sm:w-full w-10 flex h-10 gap-2 items-center cursor-pointer rounded-sm bg-accent hover:bg-primary transition-all justify-center items-center ${
               isSidebarOpen ? "" : "justify-center px-0"
             }`}
           >
@@ -136,7 +141,7 @@ const CreateButton = ({ isSidebarOpen, isTextVisible, setSoundboards }) => {
             </span>
 
             {isTextVisible && (
-              <div className="flex items-center h-full font-semibold text-md overflow-hidden whitespace-nowrap">
+              <div className="flex items-center h-full font-semibold text-md overflow-hidden whitespace-nowrap hidden sm:flex">
                 Create Board
               </div>
             )}

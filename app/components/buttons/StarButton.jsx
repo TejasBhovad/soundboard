@@ -4,7 +4,7 @@ import Star from "app/components/logos/Star";
 
 const Dashboard = () => {
   return (
-    <Link href="https://github.com/">
+    <Link href="https://github.com/TejasBhovad/soundboard">
       <button className="star-btn">
         <div className="flex items-center gap-2">
           <Star />

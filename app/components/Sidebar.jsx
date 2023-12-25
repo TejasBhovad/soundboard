@@ -9,7 +9,6 @@ import CreateButton from "@/app/components/buttons/CreateButton";
 import { useState, useEffect, useContext } from "react";
 import { BoardsContext } from "./BoardsContext";
 const Sidebar = () => {
-
   const { data: session, status } = useSession();
   const { boardsState, setBoardsState } = useContext(BoardsContext);
   const [userEmail, setUserEmail] = useState(null);
@@ -81,8 +80,8 @@ const Sidebar = () => {
     <nav
       role="navigation"
       aria-label="Main Navigation"
-      className={`bg-secondary text-white h-full border-[1px] border-utility flex py-4 flex-col gap-2 ${
-        isSidebarOpen ? "w-60 px-3.5" : "w-16 px-2.5"
+      className={`bg-secondary h-16 text-white sm:h-full border-[1px] border-utility flex py-2 sm:py-4 sm:flex-col gap-2 justify-start sm:justify-start ${
+        isSidebarOpen ? "sm:w-60 px-3.5 w-full" : "sm:w-16 px-2.5 w-full"
       } transition-all`}
     >
       {/* Create Board button */}
@@ -94,7 +93,7 @@ const Sidebar = () => {
 
       {/* Your Boards button */}
       <div
-        className={`collapse-btn w-full flex h-10 gap-1 items-center cursor-pointer rounded-sm hover:bg-utility transition-all ${
+        className={`collapse-btn sm:w-full flex h-10 gap-1 items-center cursor-pointer rounded-sm hover:bg-utility transition-all hidden sm:flex ${
           isSidebarOpen ? "" : "justify-start px-0"
         }`}
         onClick={toggleSidebar}
@@ -106,7 +105,7 @@ const Sidebar = () => {
           </span>
         </button>
         {isTextVisible && (
-          <div className="flex items-center h-full font-semibold text-md overflow-hidden whitespace-nowrap px-2 transition-all">
+          <div className="flex items-center h-full font-semibold text-md overflow-hidden whitespace-nowrap px-2 transition-all sm:flex hidden">
             Your Boards
           </div>
         )}
@@ -139,7 +138,7 @@ const Sidebar = () => {
               </span>
             </button>
             {isTextVisible && (
-              <div className="flex items-center h-full font-medium text-md overflow-hidden whitespace-nowrap">
+              <div className="flex items-center h-full font-medium text-md overflow-hidden whitespace-nowrap hidden sm:flex">
                 {soundboard.name}
               </div>
             )}

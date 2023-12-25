@@ -26,7 +26,7 @@ const SoundButton = ({
 }) => {
   const [isDialogOpen, setIsDialogOpen] = useState(false);
   const [name, setName] = useState("");
-  const LIMIT = 2;
+  const LIMIT = 5;
   const [boardID, setBoardID] = useState(bID);
   const [soundID, setSoundID] = useState("");
   const [image, setImage] = useState("https://robohash.org/placeholder");
@@ -102,7 +102,10 @@ const SoundButton = ({
       open={isDialogOpen}
       onOpenChange={(value) => setIsDialogOpen(value)}
     >
-      <DialogTrigger className="mb-4" onClick={handleAddSound}>
+      <DialogTrigger
+        className="flex items-center justify-center"
+        onClick={handleAddSound}
+      >
         <div
           className="w-28 h-32 relative rounded-sm border-[1px] border-utility overflow-hidden hover:shadow-md cursor-pointer transition-all hover:border-logoGradientLight"
           style={{
@@ -195,7 +198,7 @@ const SoundButton = ({
       </DialogContent>
     </Dialog>
   ) : (
-    <div className="mb-4" onClick={handleAddSound}>
+    <div className="" onClick={handleAddSound}>
       <div
         className="w-28 h-32 relative rounded-sm border-[1px] border-utility overflow-hidden hover:shadow-md cursor-pointer transition-all hover:border-logoGradientLight"
         style={{
