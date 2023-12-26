@@ -116,7 +116,7 @@ const SoundButton = ({
 
   return (
     <div
-      className="w-28 h-32 relative rounded-sm border-[1px] border-utility overflow-hidden hover:shadow-md cursor-pointer transition-all hover:border-logoGradientLight"
+      className="w-28 h-32 relative rounded-sm border-[1px] border-utility overflow-hidden hover:shadow-md cursor-pointer transition-all hover:border-logoGradientLight  hover:scale-95 active:scale-105"
       style={{
         background: "radial-gradient(circle at 50% 50%, #563284, #141317 50%)",
       }}

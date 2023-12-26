@@ -107,7 +107,7 @@ const SoundButton = ({
         onClick={handleAddSound}
       >
         <div
-          className="w-28 h-32 relative rounded-sm border-[1px] border-utility overflow-hidden hover:shadow-md cursor-pointer transition-all hover:border-logoGradientLight"
+          className="w-28 h-32 relative rounded-sm border-[1px] border-utility overflow-hidden hover:shadow-md cursor-pointer transition-all hover:border-primary hover:scale-95 active:scale-105"
           style={{
             background:
               "radial-gradient(circle at 50% 50%, #563284, #141317 50%)",
@@ -200,7 +200,7 @@ const SoundButton = ({
   ) : (
     <div className="" onClick={handleAddSound}>
       <div
-        className="w-28 h-32 relative rounded-sm border-[1px] border-utility overflow-hidden hover:shadow-md cursor-pointer transition-all hover:border-logoGradientLight"
+        className="w-28 h-32 relative rounded-sm border-[1px] border-utility overflow-hidden hover:shadow-md cursor-pointer transition-all hover:border-red-600 hover:border-opacity-30 hover:border-2 opacity-50"
         style={{
           background:
             "radial-gradient(circle at 50% 50%, #563284, #141317 50%)",
