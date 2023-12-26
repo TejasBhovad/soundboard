@@ -95,14 +95,13 @@ const page = ({ params }) => {
     toast({
       title: "Copied to clipboard",
       description: (
-        <span>
-          link:
+        <span className="gap-2">
+          <span>url: </span>
           <a
             className="text-logoGradientDark underline"
             href={URL + params.dashboard_id}
           >
-            {" "}
-            {URL+params.dashboard_id}
+            {URL + params.dashboard_id}
           </a>
         </span>
       ),
@@ -261,7 +260,7 @@ const page = ({ params }) => {
             </div>
           </DialogContent>
         </Dialog>
-        <div className="w-2/12 flex justify-center items-start aspect-square py-4">
+        <div className="w-auto flex justify-center items-start px-5 py-4">
           <div
             className=" h-12 w-12 hover:bg-utility aspect-square rounded-md flex justify-center items-center p-2 hover:scale-95 transition-all cursor-pointer"
             onClick={handleCopyClick}
@@ -271,7 +270,7 @@ const page = ({ params }) => {
         </div>
       </div>
 
-      <div className="sounds-container w-full h-fit px-4 grid grid-cols-2 sm:grid-cols-3 xs:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 xl:grid-cols-7 2xl:grid-cols-9 gap-4 flex justify-center place-items-center md:justify-items-start">
+      <div className="sounds-container w-full h-fit px-4 grid grid-cols-2 sm:grid-cols-3 xs:grid-cols-3 md:grid-cols-4 lg:grid-cols-6 xl:grid-cols-7 2xl:grid-cols-9 gap-4 flex justify-center place-items-center md:justify-items-start">
         <AddSound
           bID={dashboardId}
           creator={creator}
