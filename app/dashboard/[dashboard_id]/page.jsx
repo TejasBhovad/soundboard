@@ -31,7 +31,7 @@ import {
 } from "@/components/ui/select";
 import { Input } from "@/components/ui/input";
 const page = ({ params }) => {
-  const URL = "https://localhost:3000/";
+  const URL = "http://localhost:3000/";
   const router = useRouter();
   const { data: session, status } = useSession();
   const { boardsState, setBoardsState } = useContext(BoardsContext);
