@@ -4,5 +4,4 @@ const nextConfig = {
     domains: ["robohash.org", "uploadthing.com", "utfs.io"],
   },
 };
-
 module.exports = nextConfig;

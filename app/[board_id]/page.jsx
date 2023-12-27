@@ -10,7 +10,7 @@ import GuestSound from "@/app/components/GuestSound";
 import Share from "@/app/components/logos/Share";
 
 const page = ({ params }) => {
-  const URL = "http://localhost:3000/";
+  const URL = process.env.NEXT_PUBLIC_URL+"/";
   const [board, setBoard] = useState(null);
   const [loading, setLoading] = useState(true);
 

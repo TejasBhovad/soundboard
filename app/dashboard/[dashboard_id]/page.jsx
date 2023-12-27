@@ -31,7 +31,7 @@ import {
 import { Input } from "@/components/ui/input";
 
 const page = ({ params }) => {
-  const URL = "http://localhost:3000/";
+  const URL = process.env.NEXT_PUBLIC_URL+"/";
 
   const router = useRouter();
   const { toast } = useToast();
