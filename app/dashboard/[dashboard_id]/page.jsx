@@ -31,7 +31,7 @@ import {
 import { Input } from "@/components/ui/input";
 
 const page = ({ params }) => {
-  const URL = process.env.NEXT_PUBLIC_URL+"/";
+  const URL = process.env.NEXT_PUBLIC_URL + "/";
 
   const router = useRouter();
   const { toast } = useToast();
@@ -167,8 +167,10 @@ const page = ({ params }) => {
                 ></Image>
               </div>
               <div className="desc flex flex-col h-full w-full gap-1.5 py-1.5 justify-start flex text-start">
-                <h1 className="text-3xl font-semibold">{boardName}</h1>
-                <span className="gradient-text font-regular">
+                <h1 className="text-3xl font-semibold sm:text-xl">
+                  {boardName}
+                </h1>
+                <span className="gradient-text font-regular sm:text-md">
                   {boardVisibility.charAt(0).toUpperCase() +
                     boardVisibility.slice(1)}{" "}
                   Soundboard

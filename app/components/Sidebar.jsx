@@ -82,7 +82,7 @@ const Sidebar = () => {
         setSoundboards={setSoundboards}
       />
       <div
-        className={`collapse-btn sm:w-full flex h-10 gap-1 items-center cursor-pointer rounded-sm hover:bg-utility transition-all hidden sm:flex ${
+        className={`collapse-btn sm:w-10 flex h-10 gap-1 items-center cursor-pointer rounded-sm hover:bg-utility transition-all hidden sm:flex ${
           isSidebarOpen ? "" : "justify-start px-0"
         }`}
         onClick={toggleSidebar}

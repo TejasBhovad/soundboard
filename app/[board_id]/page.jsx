@@ -10,7 +10,7 @@ import GuestSound from "@/app/components/GuestSound";
 import Share from "@/app/components/logos/Share";
 
 const page = ({ params }) => {
-  const URL = process.env.NEXT_PUBLIC_URL+"/";
+  const URL = process.env.NEXT_PUBLIC_URL + "/";
   const [board, setBoard] = useState(null);
   const [loading, setLoading] = useState(true);
 
@@ -64,8 +64,10 @@ const page = ({ params }) => {
                   ></Image>
                 </div>
                 <div className="desc flex flex-col h-full w-full gap-1.5 py-1.5 justify-start flex text-start">
-                  <h1 className="text-3xl font-semibold">{board.name}</h1>
-                  <span className="gradient-text font-regular">
+                  <h1 className="text-3xl font-semibold sm:text-xl">
+                    {board.name}
+                  </h1>
+                  <span className="gradient-text font-regular sm:text-md">
                     {board.visibility.charAt(0).toUpperCase() +
                       board.visibility.slice(1)}{" "}
                     Soundboard
