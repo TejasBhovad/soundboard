@@ -1,5 +1,4 @@
 import { Client, Databases } from "appwrite";
-
 import { ID } from "appwrite";
 import { Query } from "appwrite";
 
@@ -31,30 +30,6 @@ const saveUser = async (
   recent_boards
 ) => {
   try {
-    // log all the data
-    // console.log(
-    //   "name: " +
-    //     name +
-    //     "\n" +
-    //     "user_id: " +
-    //     user_id +
-    //     "\n" +
-    //     "picture: " +
-    //     picture +
-    //     "\n" +
-    //     "email: " +
-    //     email +
-    //     "\n" +
-    //     "status: " +
-    //     status +
-    //     "\n" +
-    //     "last_payment: " +
-    //     last_payment +
-    //     "\n" +
-    //     "recent_boards: " +
-    //     recent_boards +
-    //     "\n"
-    // );
     await databases.createDocument(
       process.env.NEXT_PUBLIC_APPWRITE_DB_ID,
       process.env.NEXT_PUBLIC_APPWRITE_USERS_ID,
@@ -85,7 +60,6 @@ const updateRecentBoards = async (user_id, boards) => {
         recent_boards: boards,
       }
     );
-    // console.log(response);
   } catch (error) {
     console.log(error);
   }

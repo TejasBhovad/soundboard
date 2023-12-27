@@ -1,20 +1,19 @@
 "use client";
 
 import Image from "next/image";
-import Sound from "@/app/components/logos/Sound";
 import { updateSound, deleteSound } from "@/app/queries/sound";
 import {
   Dialog,
   DialogContent,
-  DialogDescription,
-  DialogHeader,
   DialogTitle,
   DialogTrigger,
 } from "@/components/ui/dialog";
-import ImageUpload from "@/app/components/ImageUpload";
-import SoundUpload from "@/app/components/SoundUpload";
 import { Input } from "@/components/ui/input";
 import { useEffect, useState } from "react";
+import ImageUpload from "@/app/components/ImageUpload";
+import SoundUpload from "@/app/components/SoundUpload";
+import Sound from "@/app/components/logos/Sound";
+
 const SoundButton = ({
   sound_id,
   name,
@@ -25,15 +24,13 @@ const SoundButton = ({
   plays,
   setSoundsData,
 }) => {
-  // Play sound
   const playSound = () => {
     const audio = new Audio(soundFile);
     audio.play();
   };
 
-  // Handle edit click
   const handleEditClick = (event) => {
-    event.stopPropagation(); // Prevent the sound from playing
+    event.stopPropagation();
     console.log("Edit clicked");
   };
 
@@ -42,17 +39,11 @@ const SoundButton = ({
   const [soundFile, setSoundFile] = useState(file);
   const [soundID, setSoundID] = useState(sound_id);
   const [soundBoard, setSoundBoard] = useState(bID);
-  const [soundCreator, setSoundCreator] = useState(creator);
-  const [soundPlays, setSoundPlays] = useState(plays);
-
-  // const [soundPlays, setSoundPlays] = useState(0);
-
   const [isNameValid, setIsNameValid] = useState(true);
-
-  const handleNameChange = (event) => {
-    setTempName(event.target.value);
-    setIsNameValid(event.target.value !== "");
-  };
+  const [tempName, setTempName] = useState(name);
+  const [tempLogo, setTempLogo] = useState(logo);
+  const [tempFile, setTempFile] = useState(file);
+  const [isDialogOpen, setIsDialogOpen] = useState(false);
 
   useEffect(() => {
     setSoundName(name);
@@ -60,31 +51,27 @@ const SoundButton = ({
     setSoundFile(file);
     setSoundID(sound_id);
     setSoundBoard(bID);
-    setSoundCreator(creator);
-    setSoundPlays(plays);
   }, [name, logo, file, sound_id, bID, creator, plays]);
-  const [isDialogOpen, setIsDialogOpen] = useState(false);
-  // temp states for edit dialog
-  const [tempName, setTempName] = useState(name);
-  const [tempLogo, setTempLogo] = useState(logo);
-  const [tempFile, setTempFile] = useState(file);
 
   useEffect(() => {
     setTempName(name);
     setTempLogo(logo);
     setTempFile(file);
   }, [name, logo, file]);
-
   useEffect(() => {
     setSoundID(sound_id);
   }, [sound_id]);
-
-  // set temp states to current sound data
   useEffect(() => {
     setSoundName(tempName);
     setSoundLogo(tempLogo);
     setSoundFile(tempFile);
   }, [tempName, tempLogo, tempFile]);
+
+  const handleNameChange = (event) => {
+    setTempName(event.target.value);
+    setIsNameValid(event.target.value !== "");
+  };
+
   const handleSaveClick = () => {
     if (isNameValid) {
       setSoundName(tempName);
@@ -96,7 +83,6 @@ const SoundButton = ({
         soundLogo,
         soundFile,
         0,
-        // soundCreator,
         soundBoard,
         new Date().toISOString()
       );
@@ -106,7 +92,6 @@ const SoundButton = ({
 
   const handleDeleteClick = () => {
     console.log("Delete clicked");
-    // console.log("soundID", sound_id);
     if (soundID !== undefined) {
       deleteSound(soundID, soundLogo, soundFile);
       setIsDialogOpen(false);
@@ -123,15 +108,13 @@ const SoundButton = ({
       onClick={playSound}
     >
       <div className="absolute inset-0 bg-secondary bg-opacity-60 backdrop-blur-md"></div>
-      {/* Edit button on top */}
       <div className="absolute top-0 right-0 z-10" onClick={handleEditClick}>
         <Dialog
           open={isDialogOpen}
           onOpenChange={(value) => setIsDialogOpen(value)}
         >
-          <DialogTrigger className="" onClick={() => setIsDialogOpen(true)}>
+          <DialogTrigger onClick={() => setIsDialogOpen(true)}>
             <div className="w-7 h-7 bg-utility rounded-tr-sm rounded-bl-sm flex justify-center items-center">
-              {/* edit svg icon */}
               <svg
                 xmlns="http://www.w3.org/2000/svg"
                 className="h-6 w-6 text-text"
@@ -173,11 +156,11 @@ const SoundButton = ({
                         alt="default image"
                         className="w-full h-full"
                       />
-                    </div>{" "}
+                    </div>
                     <span className="w-full items-center flex justify-center text-gray-500 bg-secondary border-solid border-[1px] border-utility rounded-sm">
                       image
                     </span>
-                  </div>{" "}
+                  </div>
                   <ImageUpload setImage={setTempLogo} />
                 </div>
               </div>
@@ -185,7 +168,7 @@ const SoundButton = ({
                 <div className="justify-between flex flex-col gap-2">
                   <div className="aspect-square w-20 bg-background border-[1px] border-utility rounded-sm flex justify-center items-center">
                     <Sound />
-                  </div>{" "}
+                  </div>
                   <span className="w-full items-center flex justify-center text-gray-500 bg-secondary border-solid border-[1px] border-utility rounded-sm">
                     sound
                   </span>
@@ -193,7 +176,6 @@ const SoundButton = ({
                 <SoundUpload setSound={setTempFile} />
               </div>
               <div className="error flex gap-2">
-                {/* show error message when name not valid */}
                 {!isNameValid && (
                   <div className="text-red-500 bg-opacity-20	 text-xs bg-red-400 px-2 py-1 w-40 text-center rounded-full">
                     Please enter a name

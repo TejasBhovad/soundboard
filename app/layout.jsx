@@ -1,12 +1,13 @@
-import { GeistSans } from "geist/font";
-import { Toaster } from "@/components/ui/toaster";
 import "./globals.css";
+import { GeistSans } from "geist/font";
+import { PHProvider, PostHogPageview } from "./providers";
+import { Toaster } from "@/components/ui/toaster";
+import { ErrorBoundary } from "next/dist/client/components/error-boundary";
+import AuthProvider from "@/app/components/AuthProvider";
 import Error from "@/app/components/Error";
 import Navbar from "@/app/components/Navbar";
-import { PHProvider, PostHogPageview } from "./providers";
 import { Suspense } from "react";
-import AuthProvider from "@/app/components/AuthProvider";
-import { ErrorBoundary } from "next/dist/client/components/error-boundary";
+
 export const metadata = {
   title: "SoundXLR",
   description: "Generate and share soundboards with ease",

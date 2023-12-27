@@ -1,11 +1,10 @@
 "use client";
+import "../styles/Landing.css";
 import { useEffect, useState } from "react";
 import Link from "next/link";
-import "../styles/Landing.css";
+
 const Landing = () => {
-  // create a state variable to hold the current scroll percent
   const [scrollPercent, setScrollPercent] = useState(0);
-  // update the scroll percent when the user scrolls
   useEffect(() => {
     const scrollHandler = () => {
       const scrollPercent = Math.floor(
@@ -32,7 +31,6 @@ const Landing = () => {
             style={{}}
           >
             <div className="w-full aspect-video md:hidden flex my-4 z-10">
-              {" "}
               <img src="show.png" alt="" />
             </div>
             <div className="opacity-100 md:opacity-0 z-0 w-3/4 h-1/5 rounded-full bg-accent absolute blur-[100px] top-32 left-1/8 "></div>
@@ -57,16 +55,15 @@ const Landing = () => {
           <div
             className="transition z-80 duration-300 ease-in-out w-10/12 h-4/6  fixed"
             style={{
-              // top 50% if less than 50 else 200%
-              top: scrollPercent >= 40 ? "80%" : "50%", // Adjust this value
-              right: scrollPercent >= 40 ? "50%" : "20%", // Adjust this value
+              top: scrollPercent >= 40 ? "80%" : "50%",
+              right: scrollPercent >= 40 ? "50%" : "20%",
               transform:
                 scrollPercent >= 40 && scrollPercent <= 60
                   ? "translate(50%, -50%)"
                   : scrollPercent < 40
                   ? "translate(75%, -50%)"
                   : "translate(50%, -50%)",
-              transition: "top 0.5s ease, right 0.5s ease", // Add this line
+              transition: "top 0.5s ease, right 0.5s ease",
               opacity: "1",
               boxShadow: scrollPercent >= 40 ? "0 0 20px 1px #8036FF" : "none",
             }}
@@ -92,20 +89,18 @@ const Landing = () => {
                   ? "translate(75%, -50%)"
                   : "translate(50%, -50%)",
               transition: "top 0.5s ease, right 0.5s ease",
-              // opacity to 1 if scrollPercent is greater than 50
               opacity: scrollPercent >= 48 ? "1" : "0",
             }}
           >
             <span className="text-6xl text-center font-semibold">
               <p>
-                {" "}
                 Unleash your <span className="gradient-text">Creativity</span>
               </p>
               <p> one sound at a time.</p>
             </span>
           </div>
         </div>
-        <div className="md:opacity-100 opacity-0 z-10 w-2/4 h-3/5 rounded-full bg-accent absolute blur-[100px] top-36 left-1/2"></div>{" "}
+        <div className="md:opacity-100 opacity-0 z-10 w-2/4 h-3/5 rounded-full bg-accent absolute blur-[100px] top-36 left-1/2"></div>
       </div>
       <div className="mb-hide w-full h-screen bg-gradient-to-b from-bgG1 to-bgG1 via-bgG2 overflow-auto"></div>
     </div>

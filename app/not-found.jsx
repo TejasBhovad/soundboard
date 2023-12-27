@@ -1,5 +1,6 @@
 import "./styles/Utils.css";
 import Link from "next/link";
+
 const NotFound = () => {
   return (
     <div className="w-full h-full flex flex-col justify-center items-center gap-8">

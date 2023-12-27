@@ -1,4 +1,3 @@
-// app/providers.js
 'use client'
 import posthog from 'posthog-js'
 import { PostHogProvider } from 'posthog-js/react'
@@ -14,7 +13,7 @@ if (typeof window !== 'undefined') {
 export function PostHogPageview() {
   const pathname = usePathname();
   const searchParams = useSearchParams();
-  // Track pageviews
+
   useEffect(() => {
     if (pathname) {
       let url = window.origin + pathname

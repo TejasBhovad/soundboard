@@ -1,6 +1,5 @@
 import { Client, Databases } from "appwrite";
 import { ID } from "appwrite";
-import { Query } from "appwrite";
 
 const client = new Client();
 const databases = new Databases(client);
@@ -38,58 +37,6 @@ const saveSound = async (
   }
 };
 
-const getSoundById = async (sound_id) => {
-  try {
-    const response = await databases.listDocuments(
-      process.env.NEXT_PUBLIC_APPWRITE_DB_ID,
-      process.env.NEXT_PUBLIC_APPWRITE_SOUNDS_ID,
-      [Query.equal("sound_id", sound_id)]
-    );
-    return response.documents[0];
-  } catch (error) {
-    console.log(error);
-  }
-};
-
-const getSoundsByBoard = async (board) => {
-  try {
-    const response = await databases.listDocuments(
-      process.env.NEXT_PUBLIC_APPWRITE_DB_ID,
-      process.env.NEXT_PUBLIC_APPWRITE_SOUNDS_ID,
-      [Query.equal("board", board)]
-    );
-    return response.documents;
-  } catch (error) {
-    console.log(error);
-  }
-};
-
-const getSoundsByCreator = async (creator) => {
-  try {
-    const response = await databases.listDocuments(
-      process.env.NEXT_PUBLIC_APPWRITE_DB_ID,
-      process.env.NEXT_PUBLIC_APPWRITE_SOUNDS_ID,
-      [Query.equal("creator", creator)]
-    );
-    return response.documents;
-  } catch (error) {
-    console.log(error);
-  }
-};
-
-const getSoundsByBoardAndCreator = async (board, creator) => {
-  try {
-    const response = await databases.listDocuments(
-      process.env.NEXT_PUBLIC_APPWRITE_DB_ID,
-      process.env.NEXT_PUBLIC_APPWRITE_SOUNDS_ID,
-      [Query.equal("board", board), Query.equal("creator", creator)]
-    );
-    return response.documents;
-  } catch (error) {
-    console.log(error);
-  }
-};
-
 const updateSound = async (
   sound_id,
   name,
@@ -122,14 +69,10 @@ const updateSound = async (
 
 const deleteSound = async (sound_id, sound_logo, soundFile) => {
   try {
-    // if sound_logo starts with https://utfs.io/ then delete it
     if (sound_logo.startsWith("https://utfs.io/")) {
-      // await utapi.deleteFiles(sound_logo);
       console.log("Deleted sound_logo");
     }
-    // if soundFile starts with https://utfs.io/ then delete it
     if (soundFile.startsWith("https://utfs.io/")) {
-      // await utapi.deleteFiles(soundFile.split("/").pop());
       console.log("Deleted soundFile");
     }
     await databases.deleteDocument(
@@ -143,12 +86,4 @@ const deleteSound = async (sound_id, sound_logo, soundFile) => {
   }
 };
 
-export {
-  saveSound,
-  updateSound,
-  deleteSound,
-  getSoundById,
-  getSoundsByBoard,
-  getSoundsByCreator,
-  getSoundsByBoardAndCreator,
-};
+export { saveSound, updateSound, deleteSound };

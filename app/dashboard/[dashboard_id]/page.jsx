@@ -1,4 +1,6 @@
 "use client";
+import "../../styles/Utils.css";
+import { useState, useEffect } from "react";
 import { useContext } from "react";
 import { useSession } from "next-auth/react";
 import { BoardsContext } from "@/app/components/BoardsContext";
@@ -7,18 +9,15 @@ import { useRouter } from "next/navigation";
 import { updateBoard, deleteBoard } from "@/app/queries/board";
 import { updateRecentBoards } from "@/app/queries/user";
 import { useToast } from "@/components/ui/use-toast";
-import "../../styles/Utils.css";
+
 import Image from "next/image";
 import Share from "@/app/components/logos/Share";
 import SoundButton from "@/app/components/SoundButton";
 import ImageUpload from "@/app/components/ImageUpload";
 import AddSound from "@/app/components/AddSound";
-import { useState, useEffect } from "react";
 import {
   Dialog,
   DialogContent,
-  DialogDescription,
-  DialogHeader,
   DialogTitle,
   DialogTrigger,
 } from "@/components/ui/dialog";
@@ -30,9 +29,14 @@ import {
   SelectValue,
 } from "@/components/ui/select";
 import { Input } from "@/components/ui/input";
+
 const page = ({ params }) => {
   const URL = "http://localhost:3000/";
+
   const router = useRouter();
+  const { toast } = useToast();
+
+  // get user session
   const { data: session, status } = useSession();
   const { boardsState, setBoardsState } = useContext(BoardsContext);
   const [userEmail, setUserEmail] = useState(null);
@@ -41,21 +45,25 @@ const page = ({ params }) => {
       setUserEmail(session.user.email);
     }
   }, [status]);
+
+  // get user data
   const { userData, loading, setRefetch } = useUserData(userEmail);
   const creator = userData?.$id;
   const recentBoards = userData?.recent_boards;
-  const { toast } = useToast();
-  // temp data (will be fetched using params.dashboard_id)
+
   const [soundsData, setSoundsData] = useState([]);
-  // temp soundboard data that will be fetched later
   const [soundboards, setSoundboards] = useState([]);
   const [dashboardId, setDashboardId] = useState(params.dashboard_id);
   const [dashboardImage, setDashboardImage] = useState(
     "https://robohash.org/" + params.dashboard_id
   );
   const [boardVisibility, setBoardVisibility] = useState("public");
+  const [isDialogOpen, setIsDialogOpen] = useState(false);
+  const [boardName, setBoardName] = useState(params.dashboard_id.split("_")[0]);
+  const [visibility, setVisibility] = useState("public");
+  const [image, setImage] = useState("https://robohash.org/placeholder");
+  const [isNameValid, setIsNameValid] = useState(true);
 
-  // Update dashboard ID and image when soundboards changes
   useEffect(() => {
     const soundboard = soundboards.find(
       (sb) => sb.board_id === params.dashboard_id
@@ -66,27 +74,18 @@ const page = ({ params }) => {
       setBoardVisibility(soundboard.visibility);
       setBoardName(soundboard.name);
       setSoundsData(soundboard.sounds);
-      // set context
       setBoardsState(soundboards);
-      // console.log("soundboard", boardsState);
     }
   }, [soundboards, params.dashboard_id]);
-  const [isDialogOpen, setIsDialogOpen] = useState(false);
-  const [boardName, setBoardName] = useState(params.dashboard_id.split("_")[0]);
-  const [visibility, setVisibility] = useState("public");
-  const [image, setImage] = useState("https://robohash.org/placeholder");
-  const [isNameValid, setIsNameValid] = useState(true);
+
   const handleNameChange = (event) => {
     setBoardName(event.target.value);
     setIsNameValid(event.target.value !== "");
   };
-
   const handleNextClick = () => {
     setIsDialogOpen(false);
     if (boardName !== "") {
-      // board_id, name, logo, visibility
       updateBoard(dashboardId, boardName, image, visibility);
-      // saveBoard(boardName, creator, image, visibility, boardID, 0);
     }
   };
   const handleCopyClick = () => {
@@ -109,10 +108,8 @@ const page = ({ params }) => {
   };
   const handleDeleteClick = () => {
     setIsDialogOpen(false);
-    // remove dashboardId from recentBoards
     recentBoards.splice(recentBoards.indexOf(params.dashboard_id), 1);
     updateRecentBoards(creator, recentBoards);
-    // remove delete board from context
     setBoardsState((prev) =>
       prev.filter((board) => board.board_id !== params.dashboard_id)
     );
@@ -122,9 +119,6 @@ const page = ({ params }) => {
   };
 
   useEffect(() => {
-    // console.log("visibility", visibility);
-    // console.log("name", boardName);
-    // console.log("image", image);
     if (image.includes("robohash") && boardName !== "") {
       setImage("https://robohash.org/" + boardName.replace(" ", ""));
     }
@@ -132,38 +126,28 @@ const page = ({ params }) => {
   useEffect(() => {
     if (loading) return;
     if (userData) {
-      // console.log("userData", userData?.recent_boards);
       setSoundboards(userData.boards);
-
-      // console.log("soundboards", soundboards);
     }
   }, [userData, loading]);
 
   useEffect(() => {
     if (creator && dashboardId && recentBoards) {
       console.log("recent_boards", recentBoards);
-      // add dashboardId to recentBoards to front of array if it doesn't exist
       if (!recentBoards.includes(dashboardId)) {
         recentBoards.unshift(dashboardId);
-      }
-      // if it does exist, move it to the front of the array
-      else {
+      } else {
         recentBoards.splice(recentBoards.indexOf(dashboardId), 1);
         recentBoards.unshift(dashboardId);
       }
-      // recentBoards.push(dashboardId);
       updateRecentBoards(creator, recentBoards);
     }
   }, [creator]);
   return (
     <div className="w-full h-full py-6 sm:py-2 px-4 sm:px-0 gap-4 flex flex-col flex items-center sm:items-start">
-      {/* add click to edit board page */}
       <div className="w-full flex">
         <Dialog
           open={isDialogOpen}
-          onOpenChange={
-            (value) => setIsDialogOpen(value) // eslint-disable-line
-          }
+          onOpenChange={(value) => setIsDialogOpen(value)}
           className="flex"
         >
           <DialogTrigger
@@ -202,9 +186,7 @@ const page = ({ params }) => {
                     className="text-gray-500"
                     defaultValue="public"
                     value={visibility}
-                    onValueChange={
-                      (value) => setVisibility(value) // eslint-disable-line
-                    }
+                    onValueChange={(value) => setVisibility(value)}
                   >
                     <SelectTrigger className="w-[180px] h-8">
                       <SelectValue placeholder="Public" />
@@ -239,7 +221,7 @@ const page = ({ params }) => {
                 </div>
               </div>
               {!isNameValid && (
-                <div className="text-red-500 bg-opacity-20	 text-xs bg-red-400 px-2 py-1 w-40 text-center rounded-full">
+                <div className="text-red-500 bg-opacity-20 text-xs bg-red-400 px-2 py-1 w-40 text-center rounded-full">
                   Please enter a name
                 </div>
               )}

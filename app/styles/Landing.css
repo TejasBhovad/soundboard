@@ -1,35 +1,14 @@
 .rectangle {
-  /* background-color: #4f46e5; bg-indigo-400 */
   position: fixed;
   top: 50%;
-
   transform: translate(0, -50%);
-  /* transition */
   transition: all 0.5s ease-in-out;
 }
 .gradient-text {
   background: linear-gradient(to right, #7548f7, #be06ff);
   -webkit-background-clip: text;
+  background-clip: text;
   -webkit-text-fill-color: transparent;
-}
-/* This will target the scrollbar */
-::-webkit-scrollbar {
-  width: 10px; /* Adjust scrollbar width */
-}
-
-/* This will style the track (background) of the scrollbar */
-::-webkit-scrollbar-track {
-  background: #f1f1f1; /* Change according to your preference */
-}
-
-/* This will style the handle (thumb) of the scrollbar */
-::-webkit-scrollbar-thumb {
-  background: #888; /* Change according to your preference */
-}
-
-/* This will style the handle (thumb) when hovered */
-::-webkit-scrollbar-thumb:hover {
-  background: #555; /* Change according to your preference */
 }
 
 @media screen and (max-width: 768px) {

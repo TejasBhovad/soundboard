@@ -8,7 +8,6 @@ import { useToast } from "@/components/ui/use-toast";
 import {
   Dialog,
   DialogContent,
-  DialogDescription,
   DialogHeader,
   DialogTitle,
   DialogTrigger,
@@ -17,24 +16,20 @@ import { Input } from "@/components/ui/input";
 import ImageUpload from "@/app/components/ImageUpload";
 import BigPlus from "@/app/components/logos/BigPlus";
 import SoundUpload from "@/app/components/SoundUpload";
-const SoundButton = ({
-  bID,
-  creator,
-  setSoundsData,
-  setRefetch,
-  soundsData,
-}) => {
+const SoundButton = ({ bID, creator, setRefetch, soundsData }) => {
+  const LIMIT = 5;
+  const { toast } = useToast();
+
   const [isDialogOpen, setIsDialogOpen] = useState(false);
   const [name, setName] = useState("");
-  const LIMIT = 5;
   const [boardID, setBoardID] = useState(bID);
   const [soundID, setSoundID] = useState("");
   const [image, setImage] = useState("https://robohash.org/placeholder");
   const [sound, setSound] = useState("");
   const [isNameValid, setIsNameValid] = useState(false);
-  const { toast } = useToast();
   const [creatorID, setCreatorID] = useState(creator);
   const [isSoundValid, setIsSoundValid] = useState(false);
+
   const handleNextClick = () => {
     setIsSoundValid(sound !== "");
     if (isNameValid && isSoundValid) {
@@ -48,13 +43,10 @@ const SoundButton = ({
         new Date().toISOString()
       );
       setRefetch((prev) => !prev);
-
-      // reset all states
       setName("");
       setSoundID("");
       setImage("https://robohash.org/placeholder");
       setSound("");
-
       setIsDialogOpen(false);
     }
   };
@@ -84,14 +76,12 @@ const SoundButton = ({
       setImage("https://robohash.org/" + name.replace(" ", ""));
     }
   }, [name, image, sound, image]);
-
   useEffect(() => {
     setBoardID(bID);
   }, [bID]);
   useEffect(() => {
     setCreatorID(creator);
   }, [creator]);
-
   useEffect(() => {
     setSound(sound);
     setIsSoundValid(sound !== "");
@@ -153,7 +143,7 @@ const SoundButton = ({
                       alt="default image"
                       className="w-full h-full"
                     />
-                  </div>{" "}
+                  </div>
                   <span className="w-full items-center flex justify-center text-gray-500 bg-secondary border-solid border-[1px] border-utility rounded-sm">
                     image
                   </span>
@@ -165,7 +155,7 @@ const SoundButton = ({
                 <div className="justify-between flex flex-col gap-2">
                   <div className="aspect-square w-20 bg-background border-[1px] border-utility rounded-sm flex justify-center items-center">
                     <Sound sound={sound} />
-                  </div>{" "}
+                  </div>
                   <span className="w-full items-center flex justify-center text-gray-500 bg-secondary border-solid border-[1px] border-utility rounded-sm">
                     sound
                   </span>
@@ -173,13 +163,11 @@ const SoundButton = ({
                 <SoundUpload setSound={setSound} />
               </div>
               <div className="error flex gap-2">
-                {/* show error message when sound not valid */}
                 {!isSoundValid && (
                   <div className="text-red-500 bg-opacity-20	 text-xs bg-red-400 px-2 py-1 w-40 text-center rounded-full">
                     Please select a sound
                   </div>
                 )}
-                {/* show error message when name not valid */}
                 {!isNameValid && (
                   <div className="text-red-500 bg-opacity-20	 text-xs bg-red-400 px-2 py-1 w-40 text-center rounded-full">
                     Please enter a name
@@ -198,7 +186,7 @@ const SoundButton = ({
       </DialogContent>
     </Dialog>
   ) : (
-    <div className="" onClick={handleAddSound}>
+    <div onClick={handleAddSound}>
       <div
         className="w-28 h-32 relative rounded-sm border-[1px] border-utility overflow-hidden hover:shadow-md cursor-pointer transition-all hover:border-red-600 hover:border-opacity-30 hover:border-2 opacity-50"
         style={{

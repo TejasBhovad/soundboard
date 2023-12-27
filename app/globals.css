@@ -75,7 +75,6 @@
   }
 }
 
-/* default bg color chnage */
 @layer components {
   .bg-default {
     @apply bg-background;

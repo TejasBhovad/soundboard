@@ -12,8 +12,6 @@ function Sound({ sound }) {
       <g clipPath="url(#clip0_15_174)">
         <path fill="" d="M0 0H24V24H0z"></path>
         <path
-          // stroke="#2F2950"
-          // if sound is null set red else set green
           stroke={sound ? "#8036FF" : "#2F2950"}
           strokeLinecap="round"
           strokeLinejoin="round"

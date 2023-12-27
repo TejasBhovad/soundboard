@@ -1,5 +1,5 @@
-import Link from "next/link";
 import "app/styles/Navbar.css";
+import Link from "next/link";
 import Star from "app/components/logos/Star";
 
 const Dashboard = () => {

@@ -1,12 +1,10 @@
 "use client";
-import { signIn } from "next-auth/react";
-import Link from "next/link";
+import "../../styles/Utils.css";
 import "app/styles/Navbar.css";
+import { signIn } from "next-auth/react";
+import { options } from "app/api/auth/[...nextauth]/options";
 import Github from "@/app/components/logos/Github";
 import Google from "@/app/components/logos/Google";
-import "../../styles/Utils.css";
-
-import { options } from "app/api/auth/[...nextauth]/options";
 
 const Dashboard = () => {
   return (
@@ -22,7 +20,6 @@ const Dashboard = () => {
             </span>
           </div>
           <div className="text-text py-4 gap-6 flex-col flex items-center">
-            {/* map through the auth providers from options */}
             {Object.values(options.providers).map((provider) => (
               <div key={provider.id} className="w-full">
                 <button
@@ -33,9 +30,7 @@ const Dashboard = () => {
                     })
                   }
                 >
-                  {/* add logo  */}
                   {provider.name === "GitHub" ? <Github /> : <Google />}
-                  {/* add text */}
                   Sign in with {provider.name}
                 </button>
               </div>

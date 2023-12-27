@@ -23,7 +23,6 @@ const saveBoard = async (
       ID.unique(),
       {
         name,
-        // creator: data.documents[0].$id,
         creator,
         logo,
         visibility,
@@ -50,19 +49,6 @@ const getBoardById = async (board_id) => {
   }
 };
 
-const getBoardsByCreator = async (creator) => {
-  try {
-    const response = await databases.listDocuments(
-      process.env.NEXT_PUBLIC_APPWRITE_DB_ID,
-      process.env.NEXT_PUBLIC_APPWRITE_BOARDS_ID,
-      [Query.equal("creator", creator)]
-    );
-    return response.documents;
-  } catch (error) {
-    console.log(error);
-  }
-};
-
 const updateRecentBoardAndTotalPlays = async (board_id, recent_board_id) => {
   try {
     const response = await databases.updateDocument(
@@ -70,7 +56,6 @@ const updateRecentBoardAndTotalPlays = async (board_id, recent_board_id) => {
       process.env.NEXT_PUBLIC_APPWRITE_USERS_ID,
       board_id,
       {
-        // add recent_board_id to recent_boards array
         recent_boards: recent_boards.push(recent_board_id),
         total_plays: total_plays + 1,
       }
@@ -100,7 +85,6 @@ const updateBoard = async (board_id, name, logo, visibility) => {
 
 const deleteBoard = async (board_id) => {
   try {
-    // console.log("board_id", board_id);
     const response = await databases.deleteDocument(
       process.env.NEXT_PUBLIC_APPWRITE_DB_ID,
       process.env.NEXT_PUBLIC_APPWRITE_BOARDS_ID,
@@ -115,7 +99,6 @@ export {
   saveBoard,
   deleteBoard,
   getBoardById,
-  getBoardsByCreator,
   updateBoard,
   updateRecentBoardAndTotalPlays,
 };

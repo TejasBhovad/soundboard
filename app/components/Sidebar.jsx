@@ -1,13 +1,14 @@
 "use client";
-import Board from "@/app/components/logos/Board";
+
 import Link from "next/link";
-import { useSession } from "next-auth/react";
-import { useUserData } from "@/app/hooks/db";
-import Plus from "@/app/components/logos/Plus";
 import Image from "next/image";
-import CreateButton from "@/app/components/buttons/CreateButton";
 import { useState, useEffect, useContext } from "react";
 import { BoardsContext } from "./BoardsContext";
+import { useSession } from "next-auth/react";
+import { useUserData } from "@/app/hooks/db";
+import Board from "@/app/components/logos/Board";
+import CreateButton from "@/app/components/buttons/CreateButton";
+
 const Sidebar = () => {
   const { data: session, status } = useSession();
   const { boardsState, setBoardsState } = useContext(BoardsContext);
@@ -17,15 +18,13 @@ const Sidebar = () => {
       setUserEmail(session.user.email);
     }
   }, [status]);
+
   const { userData, loading } = useUserData(userEmail);
+
   const [isSidebarOpen, setIsSidebarOpen] = useState(false);
   const [isTextVisible, setIsTextVisible] = useState(false);
-  const [isMounted, setIsMounted] = useState(false);
-
-  // temp soundboard data that will be fetched later
   const [soundboards, setSoundboards] = useState([]);
-  // const creator = userData?.$id;
-  // setSoundboards(userData?.boards);
+  const [isMounted, setIsMounted] = useState(false);
 
   useEffect(() => {
     setIsMounted(true);
@@ -33,6 +32,33 @@ const Sidebar = () => {
       setIsSidebarOpen(localStorage.getItem("sidebarState") === "open");
     }
   }, []);
+  useEffect(() => {
+    if (!isMounted) return;
+    if (typeof window !== "undefined") {
+      const storedState = localStorage.getItem("sidebarState");
+      setIsSidebarOpen(storedState === "closed");
+    }
+  }, []);
+  useEffect(() => {
+    if (isSidebarOpen) {
+      const timer = setTimeout(() => {
+        setIsTextVisible(true);
+      }, 100);
+      return () => clearTimeout(timer);
+    } else {
+      setIsTextVisible(false);
+    }
+  }, [isSidebarOpen]);
+  useEffect(() => {
+    if (loading) return;
+    if (userData) {
+      setBoardsState(userData.boards);
+      setSoundboards(userData.boards);
+    }
+  }, [userData, loading]);
+  useEffect(() => {
+    console.log("boardsState", boardsState);
+  }, [boardsState]);
 
   const toggleSidebar = () => {
     const newState = !isSidebarOpen;
@@ -42,40 +68,6 @@ const Sidebar = () => {
     }
   };
 
-  useEffect(() => {
-    if (!isMounted) return;
-    if (typeof window !== "undefined") {
-      const storedState = localStorage.getItem("sidebarState");
-      setIsSidebarOpen(storedState === "closed");
-    }
-  }, []);
-
-  useEffect(() => {
-    if (isSidebarOpen) {
-      const timer = setTimeout(() => {
-        setIsTextVisible(true);
-      }, 100); // Adjust delay as needed
-      return () => clearTimeout(timer);
-    } else {
-      setIsTextVisible(false);
-    }
-  }, [isSidebarOpen]);
-
-  // useffect that fetches the soundboards when loading chnages
-  useEffect(() => {
-    if (loading) return;
-    if (userData) {
-      // console.log("userData", userData?.boards);
-      setBoardsState(userData.boards);
-      setSoundboards(userData.boards);
-      // console.log("soundboards", soundboards);
-    }
-  }, [userData, loading]);
-
-  // use effect to print chnage in context
-  useEffect(() => {
-    console.log("boardsState", boardsState);
-  }, [boardsState]);
   return (
     <nav
       role="navigation"
@@ -84,14 +76,11 @@ const Sidebar = () => {
         isSidebarOpen ? "sm:w-60 px-3.5 w-full" : "sm:w-16 px-2.5 w-full"
       } transition-all`}
     >
-      {/* Create Board button */}
       <CreateButton
         isSidebarOpen={isSidebarOpen}
         isTextVisible={isTextVisible}
         setSoundboards={setSoundboards}
       />
-
-      {/* Your Boards button */}
       <div
         className={`collapse-btn sm:w-full flex h-10 gap-1 items-center cursor-pointer rounded-sm hover:bg-utility transition-all hidden sm:flex ${
           isSidebarOpen ? "" : "justify-start px-0"
@@ -110,8 +99,6 @@ const Sidebar = () => {
           </div>
         )}
       </div>
-
-      {/* Soundboards mapping */}
       {boardsState.map((soundboard) => (
         <Link
           key={soundboard.board_id}
@@ -129,7 +116,6 @@ const Sidebar = () => {
             >
               <span className="flex justify-center items-center">
                 <Image
-                  className=""
                   src={soundboard.logo}
                   width={24}
                   height={24}

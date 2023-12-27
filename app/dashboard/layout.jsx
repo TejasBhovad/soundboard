@@ -13,11 +13,8 @@ const layout = ({ children }) => {
         {children}
         <div className="block sm:hidden">
           <Sidebar />
-        </div>{" "}
+        </div>
       </BoardsContext.Provider>
-      {/*       
-      <Sidebar />
-      {children} */}
     </div>
   );
 };

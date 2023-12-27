@@ -31,10 +31,8 @@ button.dashboard-btn:after {
   background-image: linear-gradient(to bottom, #8036ff, #8036ff);
   opacity: 0;
   transition: all 0.2s ease-in-out;
-  /* glow effect box shadow */
   box-shadow: 0 0.25px 7.5px #8036ff;
 }
-
 button.dashboard-btn:hover:after {
   opacity: 1;
 }
@@ -72,10 +70,8 @@ div.sign-btn:after {
   background-image: linear-gradient(to bottom, #8036ff, #8036ff);
   opacity: 0;
   transition: all 0.2s ease-in-out;
-  /* glow effect box shadow */
   box-shadow: 0 0.25px 7.5px #8036ff;
 }
-
 div.sign-btn:hover:after {
   opacity: 1;
 }
@@ -98,7 +94,6 @@ button.star-btn {
   border-width: 0px;
   border-color: #ffffff00;
 }
-
 button.star-btn:hover {
   border-color: #ffffff30;
   background-color: rgba(255, 255, 255, 0.05);
@@ -108,7 +103,6 @@ button.star-btn .star {
   fill: transparent;
   transition: fill 0.15s ease-in-out;
 }
-
 button.star-btn:hover .star {
   fill: #ffffff;
 }
