@@ -71,6 +71,7 @@ const page = ({ params }) => {
     if (soundboard) {
       setDashboardId(soundboard.$id);
       setDashboardImage(soundboard.logo);
+      setImage(soundboard.logo);
       setBoardVisibility(soundboard.visibility);
       setBoardName(soundboard.name);
       setSoundsData(soundboard.sounds);
@@ -86,6 +87,7 @@ const page = ({ params }) => {
     setIsDialogOpen(false);
     if (boardName !== "") {
       updateBoard(dashboardId, boardName, image, visibility);
+      setDashboardImage(image);
     }
   };
   const handleCopyClick = () => {
@@ -122,7 +124,7 @@ const page = ({ params }) => {
     if (image.includes("robohash") && boardName !== "") {
       setImage("https://robohash.org/" + boardName.replace(" ", ""));
     }
-  }, [visibility, boardName, image]);
+  }, [boardName]);
   useEffect(() => {
     if (loading) return;
     if (userData) {
