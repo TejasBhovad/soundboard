@@ -123,7 +123,7 @@ const CreateButton = ({ isSidebarOpen, isTextVisible, setSoundboards }) => {
       <DialogTrigger className="mb-4">
         <div
           onClick={handleCreateBoard}
-          className={`collapse-btn sm:w-full w-10 flex h-10 gap-2 items-center cursor-pointer rounded-sm bg-accent hover:bg-primary transition-all justify-center items-center ${
+          className={`collapse-btn sm:w-auto w-10 flex h-10 gap-2 items-center cursor-pointer rounded-sm bg-accent hover:bg-primary transition-all justify-center items-center ${
             isSidebarOpen ? "" : "justify-center px-0"
           }`}
         >
@@ -199,7 +199,7 @@ const CreateButton = ({ isSidebarOpen, isTextVisible, setSoundboards }) => {
     <div className="mb-4">
       <div
         onClick={handleCreateBoard}
-        className={`collapse-btn w-full flex h-10 gap-2 items-center cursor-pointer rounded-sm bg-accent hover:bg-primary transition-all justify-center items-center ${
+        className={`collapse-btn sm:w-auto w-10  flex h-10 gap-2 items-center cursor-pointer rounded-sm bg-accent hover:bg-primary transition-all justify-center items-center ${
           isSidebarOpen ? "" : "justify-center px-0"
         }`}
       >

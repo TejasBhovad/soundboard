@@ -153,7 +153,7 @@ const page = ({ params }) => {
           className="flex"
         >
           <DialogTrigger
-            className="soundboard-card w-10/12 h-32 flex items-center hover:bg-utility transition-all rounded-md cursor-pointer px-4 justify-center md:justify-start "
+            className="soundboard-card w-10/12 h-32 flex items-center hover:bg-utility transition-all rounded-md cursor-pointer px-2 justify-center md:justify-start "
             onClick={() => setIsDialogOpen(true)}
           >
             <div className="h-4/5 w-4/5 flex gap-6 ">
@@ -167,10 +167,10 @@ const page = ({ params }) => {
                 ></Image>
               </div>
               <div className="desc flex flex-col h-full w-full gap-1.5 py-1.5 justify-start flex text-start">
-                <h1 className="text-3xl font-semibold sm:text-xl">
+                <h1 className="sm:text-3xl font-semibold text-xl">
                   {boardName}
                 </h1>
-                <span className="gradient-text font-regular sm:text-md">
+                <span className="gradient-text font-regular text-md sm:text-lg">
                   {boardVisibility.charAt(0).toUpperCase() +
                     boardVisibility.slice(1)}{" "}
                   Soundboard

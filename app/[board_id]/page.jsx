@@ -50,9 +50,9 @@ const page = ({ params }) => {
           loading...
         </div>
       ) : board.visibility === "public" ? (
-        <div className="w-full h-full py-6 sm:py-2 px-4 sm:px-0 gap-4 flex flex-col flex items-center sm:items-start">
+        <div className="w-full h-full py-6 sm:py-2 px-2 sm:px-4 sm:px-0 gap-4 flex flex-col flex items-center sm:items-start transition-all">
           <div className="w-full flex py-4 px-4 flex justify-center">
-            <div className="soundboard-card w-10/12 h-32 flex items-center hover:bg-utility transition-all rounded-md cursor-pointer px-4 justify-center md:justify-start ">
+            <div className="soundboard-card w-10/12 h-32 flex items-center hover:bg-utility transition-all rounded-md cursor-pointer px-2 justify-center md:justify-start ">
               <div className="h-4/5 w-4/5 flex gap-6 ">
                 <div className="pic aspect-square h-full bg-utility rounded-md flex justify-center items-center">
                   <Image
@@ -64,10 +64,10 @@ const page = ({ params }) => {
                   ></Image>
                 </div>
                 <div className="desc flex flex-col h-full w-full gap-1.5 py-1.5 justify-start flex text-start">
-                  <h1 className="text-3xl font-semibold sm:text-xl">
+                  <h1 className="sm:text-3xl font-semibold text-xl">
                     {board.name}
                   </h1>
-                  <span className="gradient-text font-regular sm:text-md">
+                  <span className="gradient-text font-regular text-md sm:text-lg">
                     {board.visibility.charAt(0).toUpperCase() +
                       board.visibility.slice(1)}{" "}
                     Soundboard
