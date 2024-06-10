@@ -23,3 +23,7 @@ SoundXLR is a web application for sharing and discovering soundboards. It allows
 - Create and Share soundboards
 - Upload custom icons for soundboards and sounds
 - Upload custom sounds for soundboards
+
+# Project Documentation
+
+[Notion Document](https://tejasbhovad.notion.site/SoundXLR-f183fe7ce35c4cdc930a158b0a9b34f3)
